@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dojo de Kumite - Combate Oficial de Karate</title>
+    <!-- Tailwind CSS para diseño moderno, responsivo y deportivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Estilo marcador electrónico y tipografía escolar legible -->
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Orbitron:wght@700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Iconos Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: radial-gradient(circle, #1a102f 0%, #0b0616 100%);
+            overflow-x: hidden;
+        }
+        .font-comic {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 0.05em;
+        }
+        .font-digital {
+            font-family: 'Orbitron', sans-serif;
+        }
+        /* Animaciones para simular impactos o golpes visuales */
+        @keyframes punch-hit {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08) rotate(1deg); filter: brightness(1.2); }
+            100% { transform: scale(1); }
+        }
+        .animate-hit {
+            animation: punch-hit 0.3s ease-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen flex flex-col justify-between">
+
+    <!-- CABECERA PRINCIPAL -->
+    <header class="bg-slate-900 bg-opacity-95 border-b-4 border-yellow-500 p-4 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <!-- Logo y Título -->
+            <div class="flex items-center gap-3">
+                <div class="bg-red-600 text-white p-3 rounded-full border-2 border-white shadow-md animate-bounce">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-comic text-4xl sm:text-5xl text-yellow-400 tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">KUMITE DOJO</h1>
+                    <p class="text-xs sm:text-sm text-gray-300 font-bold uppercase tracking-widest">¡Panel Oficial de Arbitraje y Puntuación!</p>
+                </div>
+            </div>
+            
+            <!-- MARCADOR DE TIEMPO DEL DOJO -->
+            <div class="flex items-center gap-4 bg-slate-800 p-2 px-6 rounded-2xl border-2 border-slate-700 shadow-inner">
+                <div class="text-center">
+                    <p class="text-xs text-gray-400 uppercase font-bold">Tiempo de Combate</p>
+                    <div id="global-timer-display" class="font-digital text-2xl text-yellow-500 tracking-wider mt-1">
+                        02:00
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL DEL JUEGO -->
+    <main class="max-w-6xl w-full mx-auto p-4 flex-grow flex flex-col justify-center my-4">
+        
+        <!-- PANTALLA 1: BIENVENIDA -->
+        <div id="screen-welcome" class="space-y-8 py-8 text-center animate-fade-in">
+            <div class="relative max-w-lg mx-auto">
+                <div class="animate-float mb-6 inline-block">
+                    <!-- Contenedor del avatar del Sensei -->
+                    <div class="bg-yellow-400 rounded-full p-6 inline-block border-8 border-yellow-300 shadow-2xl">
+                        <!-- Mascota Sensei animada -->
+                        <svg class="w-24 h-24 text-slate-900" viewBox="0 0 100 100" fill="currentColor">
+                            <circle cx="50" cy="45" r="28" fill="#ffdbac"/>
+                            <rect x="20" y="27" width="60" height="8" fill="#e11d48" rx="2"/>
+                            <path d="M33 38 Q40 34 44 38" stroke="black" stroke-width="3" fill="none" stroke-linecap="round"/>
+                            <path d="M67 38 Q60 34 56 38" stroke="black" stroke-width="3" fill="none" stroke-linecap="round"/>
+                            <path d="M32 44 Q38 48 44 44" stroke="black" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                            <path d="M68 44 Q62 48 56 44" stroke="black" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                            <path d="M50 54 Q40 54 36 62 Q50 58 50 64 Q50 58 64 62 Q60 54 50 54" fill="#2d3748"/>
+                            <path d="M22 73 L50 78 L78 73 L85 100 L15 100 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+                            <path d="M35 73 L50 88 L65 73" fill="none" stroke="#e2e8f0" stroke-width="3"/>
+                            <rect x="30" y="90" width="40" height="8" fill="#1e293b"/>
+                        </svg>
+                    </div>
+                    <!-- Nombre del Sensei debajo de la imagen -->
+                    <div class="mt-4 font-comic text-3xl text-yellow-400 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] tracking-wide">
+                        Sensei Hans Gonzales
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-2xl mx-auto space-y-4">
+                <h2 class="font-comic text-5xl sm:text-6xl text-white tracking-wide leading-tight">
+                    ¿Reconoces los movimientos de <span class="text-red-500">Kumite</span>?
+                </h2>
+                <p class="text-lg sm:text-xl text-gray-300 max-w-lg mx-auto">
+                    Aprende las 4 técnicas de combate y entra al tapiz de competencia para competir en tiempo real bajo reglas oficiales.
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-xl mx-auto pt-4">
+                <button onclick="startApp('learn')" class="w-full sm:w-1/2 p-5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-2xl font-comic text-2xl tracking-wider shadow-[0_6px_0_#1d4ed8] active:translate-y-1 active:shadow-none transition-all flex flex-col items-center gap-2">
+                    <span>🥋 ENTRENAR TÉCNICAS</span>
+                    <span class="text-xs font-sans text-blue-200 uppercase font-bold tracking-widest">Dojo de Estudio</span>
+                </button>
+                <button onclick="startApp('game')" class="w-full sm:w-1/2 p-5 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 rounded-2xl font-comic text-2xl tracking-wider shadow-[0_6px_0_#b91c1c] active:translate-y-1 active:shadow-none transition-all flex flex-col items-center gap-2">
+                    <span>⚡ COMBATE DE KUMITE</span>
+                    <span class="text-xs font-sans text-red-200 uppercase font-bold tracking-widest">Desafío 100% Visual</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- PANTALLA 2: MODO APRENDIZAJE -->
+        <div id="screen-learn" class="hidden space-y-6 animate-fade-in">
+            <!-- Barra superior del Dojo de Estudio -->
+            <div class="flex justify-between items-center bg-slate-800 p-4 rounded-2xl border-2 border-slate-700">
+                <div>
+                    <h3 class="font-comic text-3xl text-blue-400">Dojo de Estudio</h3>
+                    <p class="text-xs sm:text-sm text-gray-300">Selecciona una técnica abajo para estudiar su fotografía y características.</p>
+                </div>
+                <button onclick="showScreen('welcome')" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-xl flex items-center gap-2 transition-all">
+                    <i data-lucide="home" class="w-5 h-5"></i> Menú
+                </button>
+            </div>
+
+            <!-- VISUALIZADOR DE TÉCNICA PRINCIPAL -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-900 p-6 rounded-3xl border-4 border-indigo-500 shadow-2xl relative overflow-hidden">
+                <!-- Imagen grande de la Técnica -->
+                <div class="lg:col-span-6 bg-slate-950 rounded-2xl p-4 flex flex-col items-center justify-center border-2 border-slate-800 min-h-[340px] relative">
+                    <div id="learn-img-container" class="w-full h-80 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center relative shadow-inner">
+                        <img id="learn-img" class="w-full h-full object-contain" src="" alt="Técnica de Karate" onerror="handleImageError(this)">
+                        <!-- Etiqueta técnica -->
+                        <div class="absolute bottom-2 right-2 bg-slate-950 bg-opacity-85 px-3 py-1 rounded-lg border border-slate-700">
+                            <span class="text-xs text-yellow-400 font-bold uppercase tracking-wider">Fotografía Real de Kumite</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalles e Información en Español -->
+                <div class="lg:col-span-6 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span id="learn-type" class="px-3 py-1 text-xs font-bold uppercase rounded-full bg-indigo-900 text-indigo-300 border border-indigo-700">Categoría</span>
+                        <h4 id="learn-name-jp" class="font-comic text-5xl text-yellow-300 mt-2">Kizami tsuki</h4>
+                        <p id="learn-name-es" class="text-xl text-gray-200 font-bold italic mt-1">Puño delantero rápido</p>
+                        
+                        <div class="mt-4 p-5 bg-slate-800 bg-opacity-50 rounded-2xl border border-slate-700 text-gray-300 text-base space-y-3">
+                            <p id="learn-description" class="leading-relaxed">Descripción de la postura física y cómo se ejecuta.</p>
+                            <div class="pt-2 flex items-center gap-2 text-sm text-yellow-400 font-bold">
+                                <i data-lucide="award" class="w-5 h-5 text-yellow-400"></i>
+                                <span id="learn-points-info">Puntos en Kumite Oficial: 1 Punto</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button onclick="triggerPracticeAction()" class="flex-1 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-comic text-xl py-3 rounded-2xl shadow-lg transition-all transform hover:scale-102 flex items-center justify-center gap-2">
+                            <i data-lucide="sparkles" class="w-6 h-6"></i> ¡ENFOCAR IMAGEN!
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SELECTORES MINIATURA -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div id="learn-selector-container" class="contents"></div>
+            </div>
+        </div>
+
+        <!-- PANTALLA 3: MODO JUEGO (COMBATE DE KUMITE TOTALMENTE VISUAL) -->
+        <div id="screen-game" class="hidden space-y-6 animate-fade-in">
+            <!-- MARCADOR ELECTRÓNICO WKF (ROJO AKA vs AZUL AO) -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch">
+                <!-- Competidor AKA (Rojo / Usuario) -->
+                <div class="md:col-span-5 bg-red-600 rounded-3xl p-4 border-4 border-red-500 shadow-xl flex items-center justify-between relative overflow-hidden">
+                    <div class="absolute right-0 top-0 bottom-0 opacity-10 font-comic text-9xl select-none translate-x-4">A</div>
+                    <div class="z-10">
+                        <span class="bg-white text-red-600 px-3 py-1 rounded-full font-bold text-xs uppercase shadow-sm">AKA (Rojo)</span>
+                        <h4 class="text-white font-comic text-2xl sm:text-3xl mt-2 tracking-wide">ESTUDIANTE</h4>
+                    </div>
+                    <div class="z-10 bg-slate-950 bg-opacity-90 rounded-2xl px-5 py-2 border border-red-400">
+                        <p id="score-aka" class="font-digital text-5xl text-red-500">0</p>
+                    </div>
+                </div>
+
+                <!-- Centro: Cronómetro y Acción de Combate -->
+                <div class="md:col-span-2 bg-slate-800 rounded-3xl p-4 border-2 border-slate-700 flex flex-col items-center justify-center text-center gap-1 shadow-md">
+                    <span class="text-[10px] text-gray-400 uppercase font-extrabold tracking-wider">CRONÓMETRO</span>
+                    <!-- Reloj digital del tatami -->
+                    <p id="game-timer" class="font-digital text-3xl text-yellow-400 tracking-widest animate-pulse">02:00</p>
+                    <div class="w-full h-[2px] bg-slate-700 my-1"></div>
+                    <span id="action-counter" class="bg-slate-900 text-yellow-500 text-xs font-bold px-3 py-1 rounded-full border border-slate-700">
+                        ACCIÓN 1 / 10
+                    </span>
+                </div>
+
+                <!-- Competidor AO (Azul / Sistema) -->
+                <div class="md:col-span-5 bg-blue-600 rounded-3xl p-4 border-4 border-blue-500 shadow-xl flex items-center justify-between relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 opacity-10 font-comic text-9xl select-none -translate-x-4">Z</div>
+                    <div class="z-10 bg-slate-950 bg-opacity-90 rounded-2xl px-5 py-2 border border-blue-400 order-last">
+                        <p id="score-ao" class="font-digital text-5xl text-blue-500">0</p>
+                    </div>
+                    <div class="z-10">
+                        <span class="bg-white text-blue-600 px-3 py-1 rounded-full font-bold text-xs uppercase shadow-sm">AO (Azul)</span>
+                        <h4 class="text-white font-comic text-2xl sm:text-3xl mt-2 tracking-wide">OPONENTE DOJO</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EL SENSEI PIDE LA TÉCNICA -->
+            <div class="bg-gradient-to-r from-red-950 via-slate-900 to-blue-950 p-6 rounded-3xl border-4 border-yellow-500 text-center relative overflow-hidden shadow-2xl">
+                <div class="relative z-10 max-w-xl mx-auto space-y-2">
+                    <p class="text-yellow-400 font-comic text-2xl uppercase tracking-wider">¡EL SENSEI TE PIDE REALIZAR!</p>
+                    <!-- Nombre que los niños deben buscar por foto -->
+                    <h3 id="target-technique-name-jp" class="font-comic text-5xl sm:text-6xl text-white tracking-wide drop-shadow-md">KIZAMI TSUKI</h3>
+                    <p id="target-technique-name-es" class="text-sm sm:text-base text-gray-300 bg-black bg-opacity-40 py-1 px-4 rounded-full inline-block">Analiza las posturas abajo e identifica la correcta</p>
+                </div>
+            </div>
+
+            <!-- MENSAJES DE RETROALIMENTACIÓN POSITIVA Y EMOTIVA (FLOTANTE) -->
+            <div id="feedback-toast" class="hidden transform scale-95 opacity-0 transition-all duration-300 p-5 rounded-2xl text-center shadow-2xl max-w-md mx-auto border-4 z-20">
+                <p id="feedback-title" class="font-comic text-3xl"></p>
+                <p id="feedback-message" class="font-bold text-sm mt-1"></p>
+            </div>
+
+            <!-- CUADRÍCULA DE SELECCIÓN (ÚNICAMENTE IMÁGENES GRANDES, SIN TEXTO) -->
+            <div>
+                <p class="text-center text-xs font-bold text-gray-400 mb-3 uppercase tracking-widest">⚠️ HAZ CLIC SOBRE LA IMAGEN CORRECTA DE LA TÉCNICA SOLICITADA:</p>
+                <div id="game-options-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Las tarjetas se inyectan dinámicamente con las fotos sin nombre -->
+                </div>
+            </div>
+        </div>
+
+        <!-- PANTALLA 4: RESULTADO FINAL -->
+        <div id="screen-gameover" class="hidden text-center space-y-8 py-8 animate-fade-in max-w-xl mx-auto">
+            <div class="bg-slate-900 p-8 rounded-3xl border-4 border-yellow-500 shadow-2xl space-y-6 relative">
+                <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-yellow-500 p-4 rounded-full border-4 border-slate-900 shadow-xl">
+                    <i data-lucide="trophy" class="w-12 h-12 text-slate-950"></i>
+                </div>
+                
+                <div class="pt-6">
+                    <h3 id="gameover-title" class="font-comic text-5xl text-yellow-400">¡COMBATE TERMINADO!</h3>
+                    <p id="gameover-subtitle" class="text-sm uppercase tracking-widest text-gray-400">Resultado Oficial de la Mesa Técnica</p>
+                </div>
+
+                <!-- Detalle final de puntuaciones -->
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- AKA Final -->
+                    <div class="bg-red-950 border border-red-500 p-4 rounded-2xl text-center">
+                        <span class="text-xs text-red-400 uppercase block font-bold">Puntaje AKA (Tú)</span>
+                        <span id="final-score-aka" class="font-digital text-4xl text-red-500 block mt-1">0</span>
+                    </div>
+                    <!-- AO Final -->
+                    <div class="bg-blue-950 border border-blue-500 p-4 rounded-2xl text-center">
+                        <span class="text-xs text-blue-400 uppercase block font-bold">Puntaje AO (Oponente)</span>
+                        <span id="final-score-ao" class="font-digital text-4xl text-blue-500 block mt-1">0</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 text-left flex items-start gap-3">
+                    <span class="text-2xl">🥋</span>
+                    <div>
+                        <p class="font-bold text-red-400">Mensaje del Tatami Oficial:</p>
+                        <p id="final-sensei-feedback" class="text-sm text-gray-300 mt-1">¡Sigue esforzándote! El Karate es perseverancia.</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button onclick="showScreen('welcome')" class="w-full sm:w-1/2 p-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold transition-all">
+                        Menú Principal
+                    </button>
+                    <button onclick="startApp('game')" class="w-full sm:w-1/2 p-3 bg-red-600 hover:bg-red-500 rounded-xl font-comic text-xl tracking-wider text-white transition-all shadow-md">
+                        ¡Volver a Jugar!
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="bg-slate-950 border-t border-slate-900 p-4 text-center text-xs text-slate-500">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <p>© Dojo Educativo de Karate Kumite - Diseñado para Escuelas Primarias</p>
+            <p>Sección especial: Kizami tsuki, Yako tsuki, Mawashi geri y Ura geri</p>
+        </div>
+    </footer>
+
+    <!-- LÓGICA DE JUEGO Y GESTIÓN DE ESTADO (JAVASCRIPT) -->
+    <script>
+        // BASE DE DATOS DE LAS 4 TÉCNICAS REQUERIDAS CON LAS IMÁGENES SUMINISTRADAS
+        const TECHNIQUES = [
+            {
+                id: "kizami-tsuki",
+                nameJp: "Kizami tsuki",
+                nameEs: "Puño Delantero",
+                category: "Puño (Tsuki)",
+                points: 1, // Yuko
+                pointsInfo: "1 Punto (Yuko)",
+                description: "Se ejecuta estirando de forma explosiva el brazo delantero del mismo lado del pie adelantado. Es una de las técnicas de puño más directas y veloces en Kumite.",
+                imgUrl: "https://scontent-lim1-1.xx.fbcdn.net/v/t51.82787-15/670428138_18600162784028731_3122271436735667013_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFBDPCR5gvDzam2KgYRPZq9grjSyifeqUCCuNLKJ96pQBXHZKkZAmhZ_DDKNSLsIJQ&_nc_ohc=t5Hp881AFV4Q7kNvwEE25X4&_nc_oc=Adpd33i7p62_1tm12jsrTiIn9frdlbA6tX7NV2WbUAmeQr8wUEL34VwziuakSRaT8Ks&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=s9o-uxK54SzxfB3HqCS7pQ&_nc_ss=7a2a8&oh=00_Af705ha8Dgz8PF0onJ19UPzjUv6k2ZRjS2epS20mFPy2Ew&oe=6A1549E9",
+                // Respaldo visual en SVG en caso de que Facebook expire o limite las URLs directas
+                fallbackSvg: `
+                <svg viewBox="0 0 100 100" class="w-full h-full text-blue-400" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
+                    <circle cx="50" cy="50" r="30" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4"/>
+                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#60a5fa" text-anchor="middle">RETRATO DE</text>
+                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">KIZAMI TSUKI</text>
+                    <path d="M30 75 L70 75 M35 75 L45 55 L75 55" stroke="#60a5fa" stroke-width="3" stroke-linecap="round"/>
+                </svg>`
+            },
+            {
+                id: "yako-tsuki",
+                nameJp: "Yako tsuki",
+                nameEs: "Puño Contrario",
+                category: "Puño (Tsuki)",
+                points: 1, // Yuko
+                pointsInfo: "1 Punto (Yuko)",
+                description: "Se ejecuta lanzando el brazo contrario al pie que se encuentra adelantado. Utiliza la rotación explosiva de las caderas para conseguir el máximo alcance y potencia de impacto.",
+                imgUrl: "https://scontent-lim1-1.xx.fbcdn.net/v/t51.82787-15/703296505_18601726984028731_8485474556317735874_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEsh91hGvXEmpEjnWHXc8JvZnfW9aEYsNJmd9b1oRiw0uypd8AvyyqpvyyBzmbivfY&_nc_ohc=mzQOqlaaWQEQ7kNvwG1XAWq&_nc_oc=Ado9Pk2FKvf8JZ-mdX-CPpUh6L5ftsAj8ZmTyooYg_wHz9Cfa3bc-U8B6h1so6TTB3U&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=PB1FiZpptnJqFQaPmM6JIA&_nc_ss=7a2a8&oh=00_Af656HfHB7KiET-C0GwqSrbAVAHdfvhyy3JKbAa5ZuMnqw&oe=6A15491C",
+                fallbackSvg: `
+                <svg viewBox="0 0 100 100" class="w-full h-full text-indigo-400" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
+                    <circle cx="50" cy="50" r="30" stroke="#4f46e5" stroke-width="2" stroke-dasharray="4"/>
+                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#818cf8" text-anchor="middle">RETRATO DE</text>
+                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">YAKO TSUKI</text>
+                    <path d="M30 75 L70 75 M35 75 L55 58 L80 58" stroke="#818cf8" stroke-width="3" stroke-linecap="round"/>
+                </svg>`
+            },
+            {
+                id: "mawashi-geri",
+                nameJp: "Mawashi geri",
+                nameEs: "Patada Circular",
+                category: "Patada (Geri)",
+                points: 2, // Waza-Ari
+                pointsInfo: "2 Puntos (Waza-Ari)",
+                description: "Una patada semicircular que impacta utilizando el empeine del pie. Puede ir dirigida al abdomen del oponente (Chudan) o a la cabeza (Jodan).",
+                imgUrl: "https://scontent-lim1-1.xx.fbcdn.net/v/t51.82787-15/702982147_18601767877028731_4307296546108297326_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFETcb_i8sMXwpx2B1pEjKaECjEAGZpb7sQKMQAZmlvuzd841CE2JtVnz1xG27saLA&_nc_ohc=5QpT4iQrgiUQ7kNvwEUdu7l&_nc_oc=AdrNYWfakSKD0WU8EKJaXxvxUf81kkTsvji3huUk7GQporOTntmMUf9UZKN9wuPXh8k&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=wBsWSqY8KN2S45pf_Ktm3Q&_nc_ss=7a2a8&oh=00_Af7T3jVaJLEvoz_1m3bjj1ae1IH8SDkcm_EPw8skixyMCg&oe=6A154718",
+                fallbackSvg: `
+                <svg viewBox="0 0 100 100" class="w-full h-full text-red-400" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
+                    <circle cx="50" cy="50" r="30" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/>
+                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#f87171" text-anchor="middle">RETRATO DE</text>
+                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">MAWASHI GERI</text>
+                    <path d="M40 75 L30 75 M40 75 Q55 50 78 40" stroke="#f87171" stroke-width="3" stroke-linecap="round"/>
+                </svg>`
+            },
+            {
+                id: "ura-geri",
+                nameJp: "Ura geri",
+                nameEs: "Patada de Gancho",
+                category: "Patada (Geri)",
+                points: 3, // Ippon
+                pointsInfo: "3 Puntos (Ippon)",
+                description: "Patada circular invertida o de gancho. El pie dibuja una trayectoria contraria golpeando con la planta o talón, sorprendiendo el lateral desprotegido de la cabeza.",
+                imgUrl: "https://scontent-lim1-1.xx.fbcdn.net/v/t51.82787-15/671127270_18600162349028731_3390258188249416836_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeG4Od0eJx-k8e5Z16g7sGmHm9QFDq1CiMqb1AUOrUKIyjRhXCEj8eR8YhpUMsOsMn4&_nc_ohc=AISHTGg8S9EQ7kNvwFbbFyH&_nc_oc=Adp1z3MTzfkNbfc5NqHWcgALGHOPKps_4ovZLrgnOZ2-QyHLQsllC_WsABN9C5_LRGw&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=VyDb1iHmwcqg69KwgrNG9g&_nc_ss=7a2a8&oh=00_Af4HlFk1u4qw9uccU4a5vDcqQCbUC3q8FWsm_gJU_yoN3Q&oe=6A1554D4",
+                fallbackSvg: `
+                <svg viewBox="0 0 100 100" class="w-full h-full text-amber-400" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
+                    <circle cx="50" cy="50" r="30" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4"/>
+                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#fbbf24" text-anchor="middle">RETRATO DE</text>
+                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">URA GERI</text>
+                    <path d="M40 75 L30 75 M40 75 Q60 55 75 48" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+                </svg>`
+            }
+        ];
+
+        // VARIABLES DE ESTADO DE LA APLICACIÓN
+        let scoreAka = 0; // Puntos del estudiante (Rojo)
+        let scoreAo = 0;  // Puntos del oponente (Azul)
+        let currentAction = 1; // Contador de Acciones (1 a 10)
+        const totalActions = 10;
+        
+        let timerSeconds = 120; // 2 minutos oficiales
+        let timerInterval = null;
+        let gameActive = false;
+
+        let targetTechnique = null;
+        let activeLearnIndex = 0;
+
+        window.onload = function() {
+            lucide.createIcons();
+            loadLearnSection();
+        };
+
+        // GESTOR SEGURO DE CARGA DE IMÁGENES
+        function handleImageError(imgElement) {
+            const techId = imgElement.dataset.techId;
+            const tech = TECHNIQUES.find(t => t.id === techId);
+            if (tech) {
+                const parent = imgElement.parentElement;
+                if (parent) {
+                    parent.innerHTML = tech.fallbackSvg + `
+                    <div class="absolute bottom-2 right-2 bg-slate-950 bg-opacity-85 px-3 py-1 rounded-lg border border-slate-700">
+                        <span class="text-xs text-yellow-400 font-bold uppercase tracking-wider">Ilustración de Respaldo</span>
+                    </div>`;
+                }
+            }
+        }
+
+        // CAMBIAR PANTALLAS
+        function showScreen(screenId) {
+            document.getElementById('screen-welcome').classList.add('hidden');
+            document.getElementById('screen-learn').classList.add('hidden');
+            document.getElementById('screen-game').classList.add('hidden');
+            document.getElementById('screen-gameover').classList.add('hidden');
+            
+            document.getElementById(`screen-${screenId}`).classList.remove('hidden');
+
+            // Detener timer si salimos de la pantalla de juego
+            if (screenId !== 'game') {
+                clearInterval(timerInterval);
+                gameActive = false;
+            }
+        }
+
+        function startApp(mode) {
+            if (mode === 'learn') {
+                showScreen('learn');
+                selectLearnTechnique(0);
+            } else if (mode === 'game') {
+                resetGameState();
+                showScreen('game');
+                setupNewRound();
+                startCombatTimer();
+            }
+        }
+
+        // ==========================================
+        // CARGA SECCIÓN DE ESTUDIO (APRENDIZAJE)
+        // ==========================================
+        function loadLearnSection() {
+            const container = document.getElementById('learn-selector-container');
+            container.innerHTML = '';
+            
+            TECHNIQUES.forEach((tech, index) => {
+                const card = document.createElement('button');
+                card.className = `p-3 bg-slate-800 hover:bg-slate-700 rounded-2xl border-2 transition-all text-center flex flex-col items-center gap-2 cursor-pointer group ${index === activeLearnIndex ? 'border-yellow-400 bg-slate-700' : 'border-slate-700'}`;
+                card.id = `learn-item-${index}`;
+                card.onclick = () => selectLearnTechnique(index);
+                
+                card.innerHTML = `
+                    <div class="w-20 h-20 bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center relative p-1">
+                        <img class="w-full h-full object-contain rounded-lg" src="${tech.imgUrl}" data-tech-id="${tech.id}" onerror="handleImageError(this)" alt="${tech.nameJp}">
+                    </div>
+                    <div>
+                        <p class="font-comic text-lg text-white group-hover:text-yellow-300 transition-colors">${tech.nameJp}</p>
+                        <span class="text-[9px] uppercase font-bold text-indigo-400">${tech.category}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectLearnTechnique(index) {
+            const prevSelected = document.getElementById(`learn-item-${activeLearnIndex}`);
+            if (prevSelected) {
+                prevSelected.classList.remove('border-yellow-400', 'bg-slate-700');
+                prevSelected.classList.add('border-slate-700');
+            }
+
+            activeLearnIndex = index;
+            const tech = TECHNIQUES[index];
+
+            const currentSelected = document.getElementById(`learn-item-${index}`);
+            if (currentSelected) {
+                currentSelected.classList.remove('border-slate-700');
+                currentSelected.classList.add('border-yellow-400', 'bg-slate-700');
+            }
+
+            const imgContainer = document.getElementById('learn-img-container');
+            if (imgContainer) {
+                imgContainer.innerHTML = `<img id="learn-img" class="w-full h-full object-contain" src="${tech.imgUrl}" data-tech-id="${tech.id}" onerror="handleImageError(this)" alt="Técnica de Karate">
+                <div class="absolute bottom-2 right-2 bg-slate-950 bg-opacity-85 px-3 py-1 rounded-lg border border-slate-700">
+                    <span class="text-xs text-yellow-400 font-bold uppercase tracking-wider">Fotografía Real de Kumite</span>
+                </div>`;
+            }
+
+            document.getElementById('learn-type').innerText = tech.category;
+            document.getElementById('learn-name-jp').innerText = tech.nameJp;
+            document.getElementById('learn-name-es').innerText = tech.nameEs;
+            document.getElementById('learn-description').innerText = tech.description;
+            document.getElementById('learn-points-info').innerText = `Puntos en Kumite Oficial: ${tech.pointsInfo}`;
+        }
+
+        function triggerPracticeAction() {
+            const imgContainer = document.getElementById('learn-img-container');
+            if (imgContainer) {
+                imgContainer.classList.add('animate-hit');
+                setTimeout(() => {
+                    imgContainer.classList.remove('animate-hit');
+                }, 300);
+            }
+        }
+
+        // ==========================================
+        // SECCIÓN DESAFÍO JUEGO: SENSEI Y MARCADOR
+        // ==========================================
+        function resetGameState() {
+            scoreAka = 0;
+            scoreAo = 0;
+            currentAction = 1;
+            timerSeconds = 120; // 2 Minutos
+            gameActive = true;
+            updateStatusBar();
+        }
+
+        function startCombatTimer() {
+            clearInterval(timerInterval);
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                if (!gameActive) return;
+
+                timerSeconds--;
+                updateTimerDisplay();
+
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    endGame("¡TIEMPO EXPIRADO!");
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Actualizar cronómetro en cabecera y en tablero central
+            document.getElementById('global-timer-display').innerText = formattedTime;
+            document.getElementById('game-timer').innerText = formattedTime;
+        }
+
+        function updateStatusBar() {
+            // Actualizar marcador electrónico
+            document.getElementById('score-aka').innerText = scoreAka;
+            document.getElementById('score-ao').innerText = scoreAo;
+            document.getElementById('action-counter').innerText = `ACCIÓN ${currentAction} / ${totalActions}`;
+        }
+
+        function setupNewRound() {
+            const randIndex = Math.floor(Math.random() * TECHNIQUES.length);
+            targetTechnique = TECHNIQUES[randIndex];
+
+            document.getElementById('target-technique-name-jp').innerText = targetTechnique.nameJp;
+            
+            let spanishHint = "Postura de Puño de Ataque Delantero";
+            if (targetTechnique.id === "yako-tsuki") spanishHint = "Postura de Puño de la Mano Trasera";
+            if (targetTechnique.id === "mawashi-geri") spanishHint = "Postura de Patada Circular Lateral";
+            if (targetTechnique.id === "ura-geri") spanishHint = "Postura de Patada de Gancho Invertido";
+            
+            document.getElementById('target-technique-name-es').innerText = spanishHint;
+
+            const gameOptions = [...TECHNIQUES].sort(() => Math.random() - 0.5);
+
+            const grid = document.getElementById('game-options-grid');
+            grid.innerHTML = '';
+
+            gameOptions.forEach(option => {
+                const card = document.createElement('button');
+                // Tarjetas solo con imágenes sin pistas de texto
+                card.className = "group relative bg-slate-900 hover:bg-slate-850 p-3 rounded-2xl border-4 border-slate-800 hover:border-yellow-400 transition-all cursor-pointer flex flex-col items-center justify-center aspect-square shadow-xl active:scale-95 overflow-hidden";
+                card.onclick = () => handleChoice(option.id, card);
+                
+                card.innerHTML = `
+                    <div class="w-full h-full rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center relative">
+                        <img class="w-full h-full object-contain" src="${option.imgUrl}" data-tech-id="${option.id}" onerror="handleImageError(this)" alt="Opción de Karate">
+                        <div class="absolute inset-0 bg-yellow-500 bg-opacity-0 group-hover:bg-opacity-5 transition-all"></div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function handleChoice(selectedId, cardElement) {
+            const isCorrect = selectedId === targetTechnique.id;
+            const toast = document.getElementById('feedback-toast');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const feedbackMsg = document.getElementById('feedback-message');
+            
+            const pointValue = targetTechnique.points;
+            let pointLabel = pointValue === 1 ? "Yuko (1 punto)" : pointValue === 2 ? "Waza-ari (2 puntos)" : "Ippon (3 puntos)";
+
+            if (isCorrect) {
+                // Suma puntos al marcador Rojo (AKA)
+                scoreAka += pointValue;
+                
+                cardElement.classList.remove('border-slate-800', 'hover:border-yellow-500');
+                cardElement.classList.add('border-green-500', 'bg-green-950', 'animate-hit');
+
+                const positiveTitles = ["¡PUNTO PARA AKA!", "¡YUKO EFECTIVO!", "¡WAZA-ARI PERFECTO!", "¡IPPON ESPECTACULAR!"];
+                const positiveMessages = [
+                    `¡Sumas +${pointValue} punto(s) a tu marcador! Identificaste la postura con agilidad de campeón.`,
+                    `¡La mesa oficial otorga ${pointLabel}! Tu concentración visual está al máximo.`,
+                    `¡Excelente ataque! Marcaste limpiamente sobre tu oponente.`,
+                    `¡Gran golpe! Reconociste la postura de combate de forma sobresaliente.`
+                ];
+
+                toast.className = "block bg-green-500 border-4 border-white text-slate-950 p-4 rounded-2xl text-center shadow-2xl max-w-md mx-auto transform scale-100 opacity-100 duration-200 font-bold fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 shadow-green-900";
+                feedbackTitle.innerText = positiveTitles[Math.min(pointValue - 1, positiveTitles.length - 1)];
+                feedbackMsg.innerText = positiveMessages[Math.floor(Math.random() * positiveMessages.length)];
+            } else {
+                // Suma los puntos correspondientes al Oponente (AO)
+                scoreAo += pointValue;
+
+                cardElement.classList.remove('border-slate-800');
+                cardElement.classList.add('border-red-500', 'bg-red-950');
+
+                const selectedTech = TECHNIQUES.find(t => t.id === selectedId);
+                toast.className = "block bg-red-600 border-4 border-white text-white p-4 rounded-2xl text-center shadow-2xl max-w-md mx-auto transform scale-100 opacity-100 duration-200 font-bold fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 shadow-red-950";
+                
+                feedbackTitle.innerText = "¡PUNTO PARA AO (OPONENTE)!";
+                feedbackMsg.innerText = `¡Oh, no! Elegiste la postura de ${selectedTech.nameJp}. El oponente aprovecha tu guardia baja y se lleva ${pointLabel}.`;
+            }
+
+            // Deshabilitar clics durante el feedback
+            const allCards = document.getElementById('game-options-grid').children;
+            for (let card of allCards) {
+                card.onclick = null;
+            }
+
+            updateStatusBar();
+
+            setTimeout(() => {
+                toast.className = "hidden transform scale-95 opacity-0 transition-all duration-300";
+
+                if (currentAction >= totalActions) {
+                    endGame("¡COMBATE TERMINADO!");
+                } else {
+                    currentAction++;
+                    updateStatusBar();
+                    setupNewRound();
+                }
+            }, 3200);
+        }
+
+        function endGame(reason) {
+            gameActive = false;
+            clearInterval(timerInterval);
+            showScreen('gameover');
+
+            if (reason) {
+                document.getElementById('gameover-title').innerText = reason;
+            }
+
+            // Actualizar marcadores finales
+            document.getElementById('final-score-aka').innerText = scoreAka;
+            document.getElementById('final-score-ao').innerText = scoreAo;
+
+            let feedbackText = "";
+            let subtitle = "";
+
+            if (scoreAka > scoreAo) {
+                subtitle = "🏆 ¡GANADOR AKA (TÚ)!";
+                document.getElementById('gameover-subtitle').className = "text-xl font-bold uppercase tracking-widest text-green-400 mt-2";
+                feedbackText = `¡Extraordinario combate! Has vencido a tu oponente por un marcador de ${scoreAka} a ${scoreAo}. Has demostrado dominar los reflejos de las técnicas de Kumite. ¡Sigue así, campeón!`;
+            } else if (scoreAka < scoreAo) {
+                subtitle = "❌ ¡GANADOR AO (OPONENTE)!";
+                document.getElementById('gameover-subtitle').className = "text-xl font-bold uppercase tracking-widest text-red-500 mt-2";
+                feedbackText = `Esta vez tu contrincante se llevó la victoria por ${scoreAo} a ${scoreAka}. ¡Pero no te preocupes! Vuelve a entrenar tus reflejos visuales en el Dojo de estudio para preparar tu revancha táctica.`;
+            } else {
+                subtitle = "🤝 ¡EMPATE EN EL TATAMI!";
+                document.getElementById('gameover-subtitle').className = "text-xl font-bold uppercase tracking-widest text-yellow-500 mt-2";
+                feedbackText = `¡Un encuentro reñido! Quedaron empatados ${scoreAka} a ${scoreAo}. Ambos demostraron excelentes conocimientos en el reconocimiento visual de golpes y patadas.`;
+            }
+
+            document.getElementById('gameover-subtitle').innerText = subtitle;
+            document.getElementById('final-sensei-feedback').innerText = feedbackText;
+        }
+    </script>
+</body>
+</html>
