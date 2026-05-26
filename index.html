@@ -302,80 +302,31 @@
     <script>
         // BASE DE DATOS DE LAS 4 TÉCNICAS REQUERIDAS CON LAS IMÁGENES SUMINISTRADAS
         const TECHNIQUES = [
-            {
-                id: "kizami-tsuki",
-                nameJp: "Kizami tsuki",
-                nameEs: "Puño Delantero",
-                category: "Puño (Tsuki)",
-                points: 1, // Yuko
-                pointsInfo: "1 Punto (Yuko)",
-                description: "Se ejecuta estirando de forma explosiva el brazo delantero del mismo lado del pie adelantado. Es una de las técnicas de puño más directas y veloces en Kumite.",
-                imgUrl: "https://scontent-lim1-1.xx.fbcdn.net/v/t51.82787-15/670428138_18600162784028731_3122271436735667013_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFBDPCR5gvDzam2KgYRPZq9grjSyifeqUCCuNLKJ96pQBXHZKkZAmhZ_DDKNSLsIJQ&_nc_ohc=t5Hp881AFV4Q7kNvwEE25X4&_nc_oc=Adpd33i7p62_1tm12jsrTiIn9frdlbA6tX7NV2WbUAmeQr8wUEL34VwziuakSRaT8Ks&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=s9o-uxK54SzxfB3HqCS7pQ&_nc_ss=7a2a8&oh=00_Af705ha8Dgz8PF0onJ19UPzjUv6k2ZRjS2epS20mFPy2Ew&oe=6A1549E9",
-                // Respaldo visual en SVG en caso de que Facebook expire o limite las URLs directas
-                fallbackSvg: `
-                <svg viewBox="0 0 100 100" class="w-full h-full text-blue-400" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
-                    <circle cx="50" cy="50" r="30" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#60a5fa" text-anchor="middle">RETRATO DE</text>
-                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">KIZAMI TSUKI</text>
-                    <path d="M30 75 L70 75 M35 75 L45 55 L75 55" stroke="#60a5fa" stroke-width="3" stroke-linecap="round"/>
-                </svg>`
-            },
-            {
-                id: "yako-tsuki",
-                nameJp: "Yako tsuki",
-                nameEs: "Puño Contrario",
-                category: "Puño (Tsuki)",
-                points: 1, // Yuko
-                pointsInfo: "1 Punto (Yuko)",
-                description: "Se ejecuta lanzando el brazo contrario al pie que se encuentra adelantado. Utiliza la rotación explosiva de las caderas para conseguir el máximo alcance y potencia de impacto.",
-                imgUrl: "https://scontent-lim1-1.xx.fbcdn.net/v/t51.82787-15/703296505_18601726984028731_8485474556317735874_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEsh91hGvXEmpEjnWHXc8JvZnfW9aEYsNJmd9b1oRiw0uypd8AvyyqpvyyBzmbivfY&_nc_ohc=mzQOqlaaWQEQ7kNvwG1XAWq&_nc_oc=Ado9Pk2FKvf8JZ-mdX-CPpUh6L5ftsAj8ZmTyooYg_wHz9Cfa3bc-U8B6h1so6TTB3U&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=PB1FiZpptnJqFQaPmM6JIA&_nc_ss=7a2a8&oh=00_Af656HfHB7KiET-C0GwqSrbAVAHdfvhyy3JKbAa5ZuMnqw&oe=6A15491C",
-                fallbackSvg: `
-                <svg viewBox="0 0 100 100" class="w-full h-full text-indigo-400" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
-                    <circle cx="50" cy="50" r="30" stroke="#4f46e5" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#818cf8" text-anchor="middle">RETRATO DE</text>
-                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">YAKO TSUKI</text>
-                    <path d="M30 75 L70 75 M35 75 L55 58 L80 58" stroke="#818cf8" stroke-width="3" stroke-linecap="round"/>
-                </svg>`
-            },
-            {
-                id: "mawashi-geri",
-                nameJp: "Mawashi geri",
-                nameEs: "Patada Circular",
-                category: "Patada (Geri)",
-                points: 2, // Waza-Ari
-                pointsInfo: "2 Puntos (Waza-Ari)",
-                description: "Una patada semicircular que impacta utilizando el empeine del pie. Puede ir dirigida al abdomen del oponente (Chudan) o a la cabeza (Jodan).",
-                imgUrl: "https://scontent-lim1-1.xx.fbcdn.net/v/t51.82787-15/702982147_18601767877028731_4307296546108297326_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFETcb_i8sMXwpx2B1pEjKaECjEAGZpb7sQKMQAZmlvuzd841CE2JtVnz1xG27saLA&_nc_ohc=5QpT4iQrgiUQ7kNvwEUdu7l&_nc_oc=AdrNYWfakSKD0WU8EKJaXxvxUf81kkTsvji3huUk7GQporOTntmMUf9UZKN9wuPXh8k&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=wBsWSqY8KN2S45pf_Ktm3Q&_nc_ss=7a2a8&oh=00_Af7T3jVaJLEvoz_1m3bjj1ae1IH8SDkcm_EPw8skixyMCg&oe=6A154718",
-                fallbackSvg: `
-                <svg viewBox="0 0 100 100" class="w-full h-full text-red-400" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
-                    <circle cx="50" cy="50" r="30" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#f87171" text-anchor="middle">RETRATO DE</text>
-                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">MAWASHI GERI</text>
-                    <path d="M40 75 L30 75 M40 75 Q55 50 78 40" stroke="#f87171" stroke-width="3" stroke-linecap="round"/>
-                </svg>`
-            },
-            {
-                id: "ura-geri",
-                nameJp: "Ura geri",
-                nameEs: "Patada de Gancho",
-                category: "Patada (Geri)",
-                points: 3, // Ippon
-                pointsInfo: "3 Puntos (Ippon)",
-                description: "Patada circular invertida o de gancho. El pie dibuja una trayectoria contraria golpeando con la planta o talón, sorprendiendo el lateral desprotegido de la cabeza.",
-                imgUrl: "https://scontent-lim1-1.xx.fbcdn.net/v/t51.82787-15/671127270_18600162349028731_3390258188249416836_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeG4Od0eJx-k8e5Z16g7sGmHm9QFDq1CiMqb1AUOrUKIyjRhXCEj8eR8YhpUMsOsMn4&_nc_ohc=AISHTGg8S9EQ7kNvwFbbFyH&_nc_oc=Adp1z3MTzfkNbfc5NqHWcgALGHOPKps_4ovZLrgnOZ2-QyHLQsllC_WsABN9C5_LRGw&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=VyDb1iHmwcqg69KwgrNG9g&_nc_ss=7a2a8&oh=00_Af4HlFk1u4qw9uccU4a5vDcqQCbUC3q8FWsm_gJU_yoN3Q&oe=6A1554D4",
-                fallbackSvg: `
-                <svg viewBox="0 0 100 100" class="w-full h-full text-amber-400" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
-                    <circle cx="50" cy="50" r="30" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#fbbf24" text-anchor="middle">RETRATO DE</text>
-                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">URA GERI</text>
-                    <path d="M40 75 L30 75 M40 75 Q60 55 75 48" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
-                </svg>`
-            }
-        ];
+    {
+        id: "kizami-tsuki",
+        nameJp: "Kizami tsuki",
+        // ... (otras líneas igual)
+        imgUrl: "kizami.jpg", // <--- Solo pones el nombre de la foto que subiste
+    },
+    {
+        id: "yako-tsuki",
+        nameJp: "Yako tsuki",
+        // ...
+        imgUrl: "yako.jpg",
+    },
+    {
+        id: "mawashi-geri",
+        nameJp: "Mawashi geri",
+        // ...
+        imgUrl: "mawashi.jpg",
+    },
+    {
+        id: "ura-geri",
+        nameJp: "Ura geri",
+        // ...
+        imgUrl: "ura.jpg",
+    }
+];
 
         // VARIABLES DE ESTADO DE LA APLICACIÓN
         let scoreAka = 0; // Puntos del estudiante (Rojo)
