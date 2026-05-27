@@ -419,6 +419,39 @@ function playArbitratorAudio(points, competitor) {
             loadLearnSection();
         };
 
+        // CONTROL DE PANTALLAS Y MÚSICA DE FONDO
+function showScreen(screenId) {
+    document.getElementById('screen-welcome').classList.add('hidden');
+    document.getElementById('screen-learn').classList.add('hidden');
+    document.getElementById('screen-game').classList.add('hidden');
+    document.getElementById('screen-gameover').classList.add('hidden');
+    
+    document.getElementById(`screen-${screenId}`).classList.remove('hidden');
+
+    // Si salimos del juego, la música se apaga por completo
+    if (screenId !== 'game') {
+        clearInterval(timerInterval);
+        gameActive = false;
+        bgMusic.pause();
+        bgMusic.currentTime = 0; 
+    }
+}
+
+function startApp(mode) {
+    if (mode === 'learn') {
+        showScreen('learn');
+        selectLearnTechnique(0);
+    } else if (mode === 'game') {
+        resetGameState();
+        showScreen('game');
+        setupNewRound();
+        startCombatTimer();
+        
+        // ¡La música arranca SOLO cuando entran al modo desafío!
+        bgMusic.play().catch(e => console.log("Interacción requerida:", e));
+    }
+}
+
         // GESTOR SEGURO DE CARGA DE IMÁGENES
         function handleImageError(imgElement) {
             const techId = imgElement.dataset.techId;
