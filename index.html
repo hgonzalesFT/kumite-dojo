@@ -302,31 +302,81 @@
     <script>
         // BASE DE DATOS DE LAS 4 TÉCNICAS REQUERIDAS CON LAS IMÁGENES SUMINISTRADAS
         const TECHNIQUES = [
-    {
-        id: "kizami-tsuki",
-        nameJp: "Kizami tsuki",
-        // ... (otras líneas igual)
-        imgUrl: "KizamiTsuki.jpg", // <--- Solo pones el nombre de la foto que subiste
-    },
-    {
-        id: "yako-tsuki",
-        nameJp: "Yako tsuki",
-        // ...
-        imgUrl: "YakoTsuki.jpg",
-    },
-    {
-        id: "mawashi-geri",
-        nameJp: "Mawashi geri",
-        // ...
-        imgUrl: "Mawashi.jpg",
-    },
-    {
-        id: "ura-geri",
-        nameJp: "Ura geri",
-        // ...
-        imgUrl: "UraMawashi.jpg",
-    }
-];
+            {
+                id: "kizami-tsuki",
+                nameJp: "Kizami tsuki",
+                nameEs: "Puño Delantero",
+                category: "Puño (Tsuki)",
+                points: 1, // Yuko
+                pointsInfo: "1 Punto (Yuko)",
+                description: "Se ejecuta estirando de forma explosiva el brazo delantero del mismo lado del pie adelantado. Es una de las técnicas de puño más directas y veloces en Kumite.",
+                imgUrl: "KizamiTsuki.jpg",
+                // Respaldo visual en SVG en caso de que Facebook expire o limite las URLs directas
+                fallbackSvg: `
+                <svg viewBox="0 0 100 100" class="w-full h-full text-blue-400" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
+                    <circle cx="50" cy="50" r="30" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4"/>
+                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#60a5fa" text-anchor="middle">RETRATO DE</text>
+                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">KIZAMI TSUKI</text>
+                    <path d="M30 75 L70 75 M35 75 L45 55 L75 55" stroke="#60a5fa" stroke-width="3" stroke-linecap="round"/>
+                </svg>`
+            },
+            {
+                id: "yako-tsuki",
+                nameJp: "Yako tsuki",
+                nameEs: "Puño Contrario",
+                category: "Puño (Tsuki)",
+                points: 1, // Yuko
+                pointsInfo: "1 Punto (Yuko)",
+                description: "Se ejecuta lanzando el brazo contrario al pie que se encuentra adelantado. Utiliza la rotación explosiva de las caderas para conseguir el máximo alcance y potencia de impacto.",
+                imgUrl: "YakoTsuki.jpg",
+                fallbackSvg: `
+                <svg viewBox="0 0 100 100" class="w-full h-full text-indigo-400" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
+                    <circle cx="50" cy="50" r="30" stroke="#4f46e5" stroke-width="2" stroke-dasharray="4"/>
+                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#818cf8" text-anchor="middle">RETRATO DE</text>
+                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">YAKO TSUKI</text>
+                    <path d="M30 75 L70 75 M35 75 L55 58 L80 58" stroke="#818cf8" stroke-width="3" stroke-linecap="round"/>
+                </svg>`
+            },
+            {
+                id: "mawashi-geri",
+                nameJp: "Mawashi geri",
+                nameEs: "Patada Circular",
+                category: "Patada (Geri)",
+                points: 2, // Waza-Ari
+                pointsInfo: "2 Puntos (Waza-Ari)",
+                description: "Una patada semicircular que impacta utilizando el empeine del pie. Puede ir dirigida al abdomen del oponente (Chudan) o a la cabeza (Jodan).",
+                imgUrl: "Mawashi.jpg",
+                fallbackSvg: `
+                <svg viewBox="0 0 100 100" class="w-full h-full text-red-400" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
+                    <circle cx="50" cy="50" r="30" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/>
+                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#f87171" text-anchor="middle">RETRATO DE</text>
+                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">MAWASHI GERI</text>
+                    <path d="M40 75 L30 75 M40 75 Q55 50 78 40" stroke="#f87171" stroke-width="3" stroke-linecap="round"/>
+                </svg>`
+            },
+            {
+                id: "ura-geri",
+                nameJp: "Ura geri",
+                nameEs: "Patada de Gancho",
+                category: "Patada (Geri)",
+                points: 3, // Ippon
+                pointsInfo: "3 Puntos (Ippon)",
+                description: "Patada circular invertida o de gancho. El pie dibuja una trayectoria contraria golpeando con la planta o talón, sorprendiendo el lateral desprotegido de la cabeza.",
+                imgUrl: "UraMawashi.jpg",
+                fallbackSvg: `
+                <svg viewBox="0 0 100 100" class="w-full h-full text-amber-400" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
+                    <circle cx="50" cy="50" r="30" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4"/>
+                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#fbbf24" text-anchor="middle">RETRATO DE</text>
+                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">URA GERI</text>
+                    <path d="M40 75 L30 75 M40 75 Q60 55 75 48" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+                </svg>`
+            }
+        ];
+
 
         // VARIABLES DE ESTADO DE LA APLICACIÓN
         let scoreAka = 0; // Puntos del estudiante (Rojo)
