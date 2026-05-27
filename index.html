@@ -300,6 +300,29 @@
 
     <!-- LÓGICA DE JUEGO Y GESTIÓN DE ESTADO (JAVASCRIPT) -->
     <script>
+
+        // ==========================================
+// CONFIGURACIÓN DEL SISTEMA DE AUDIO (NUEVO)
+// ==========================================
+const bgMusic = new Audio('Naruto.mp3');
+bgMusic.loop = true;  // Repetición continua
+bgMusic.volume = 0.4; // Volumen de fondo moderado
+
+// Función para reproducir las voces oficiales del árbitro
+function playArbitratorAudio(points, competitor) {
+    let audioFile = '';
+    
+    // Asigna el nombre del archivo según los puntos oficiales WKF
+    if (points === 1) audioFile = `Grito1-${competitor}.mp3`;
+    if (points === 2) audioFile = `Grito2-${competitor}.mp3`;
+    if (points === 3) audioFile = `Grito3-${competitor}.mp3`;
+    
+    if (audioFile) {
+        const fxAudio = new Audio(audioFile);
+        fxAudio.volume = 1.0; // Voces al volumen máximo
+        fxAudio.play().catch(e => console.log("Audio en espera de interacción:", e));
+    }
+}
         // BASE DE DATOS DE LAS 4 TÉCNICAS REQUERIDAS CON LAS IMÁGENES SUMINISTRADAS
         const TECHNIQUES = [
             {
