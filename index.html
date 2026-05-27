@@ -532,6 +532,65 @@ function playArbitratorAudio(points, competitor) {
         // ==========================================
         // SECCIÓN DESAFÍO JUEGO: SENSEI Y MARCADOR
         // ==========================================
+
+        // 1. Activar la música SOLO al presionar el botón de juego
+function startApp(mode) {
+    if (mode === 'learn') {
+        showScreen('learn');
+        selectLearnTechnique(0);
+    } else if (mode === 'game') {
+        resetGameState();
+        showScreen('game');
+        setupNewRound();
+        startCombatTimer();
+        
+        // ¡Arranca la música de ambientación!
+        bgMusic.play().catch(e => console.log("Interacción requerida:", e));
+    }
+}
+
+// 2. Apagar la música inmediatamente al salir del juego
+function showScreen(screenId) {
+    document.getElementById('screen-welcome').classList.add('hidden');
+    document.getElementById('screen-learn').classList.add('hidden');
+    document.getElementById('screen-game').classList.add('hidden');
+    document.getElementById('screen-gameover').classList.add('hidden');
+    
+    document.getElementById(`screen-${screenId}`).classList.remove('hidden');
+
+    if (screenId !== 'game') {
+        clearInterval(timerInterval);
+        gameActive = false;
+        
+        // Detiene y rebobina la música
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+    }
+}
+
+// 3. Activar los efectos de voz en las respuestas (dentro de handleChoice)
+// Busca tu función handleChoice y asegúrate de agregar las líneas marcadas abajo:
+function handleChoice(selectedId, cardElement) {
+    const isCorrect = selectedId === targetTechnique.id;
+    // ... (tu código actual de textos y diseño se queda exactamente igual) ...
+
+    if (isCorrect) {
+        scoreAka += pointValue;
+        // ... (tus clases de color verde) ...
+
+        // 🔊 AGREGA ESTA LÍNEA (Voz para el estudiante)
+        playArbitratorAudio(pointValue, 'aka');
+
+    } else {
+        scoreAo += pointValue;
+        // ... (tus clases de color red) ...
+
+        // 🔊 AGREGA ESTA LÍNEA (Voz para el oponente)
+        playArbitratorAudio(pointValue, 'ao');
+    }
+
+    // ... (el resto de tu función handleChoice con el temporizador se queda igual) ...
+}
         function resetGameState() {
             scoreAka = 0;
             scoreAo = 0;
