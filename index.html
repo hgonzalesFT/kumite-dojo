@@ -59,15 +59,10 @@
                 </div>
             </div>
             
-            <!-- MARCADOR DE TIEMPO DEL DOJO -->
-            <div class="flex items-center gap-4 bg-slate-800 p-2 px-6 rounded-2xl border-2 border-slate-700 shadow-inner">
-                <div class="text-center">
-                    <p class="text-xs text-gray-400 uppercase font-bold">Tiempo de Combate</p>
-                    <div id="global-timer-display" class="font-digital text-2xl text-yellow-500 tracking-wider mt-1">
-                        02:00
-                    </div>
-                </div>
-            </div>
+            <!-- LOGO DEL COLEGIO-->
+            <div class="flex items-center bg-slate-800 p-2 px-4 rounded-2xl border-2 border-slate-700 shadow-inner max-h-16">
+    <img id="logo-colegio" src="logo-colegio.png" alt="Logo Colegio" class="h-12 w-auto object-contain" onerror="this.style.display='none'">
+</div>
         </div>
     </header>
 
@@ -650,15 +645,14 @@ function handleChoice(selectedId, cardElement) {
             }, 1000);
         }
 
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timerSeconds / 60);
-            const seconds = timerSeconds % 60;
-            const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            // Actualizar cronómetro en cabecera y en tablero central
-            document.getElementById('global-timer-display').innerText = formattedTime;
-            document.getElementById('game-timer').innerText = formattedTime;
-        }
+       function updateTimerDisplay() {
+    const minutes = Math.floor(timerSeconds / 60);
+    const seconds = timerSeconds % 60;
+    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    // Se eliminó la línea de global-timer-display para evitar errores en el menú
+    document.getElementById('game-timer').innerText = formattedTime;
+}
 
         function updateStatusBar() {
             // Actualizar marcador electrónico
