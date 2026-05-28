@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dojo de Kumite - Combate Oficial de Karate</title>
-    <!-- Tailwind CSS para diseño moderno, responsivo y deportivo -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Estilo marcador electrónico y tipografía escolar legible -->
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Orbitron:wght@700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-    <!-- Iconos Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body {
@@ -26,11 +23,21 @@
         /* Animaciones para simular impactos o golpes visuales */
         @keyframes punch-hit {
             0% { transform: scale(1); }
-            50% { transform: scale(1.08) rotate(1deg); filter: brightness(1.2); }
+            50% { transform: scale(1.08) rotate(1deg); filter: brightness(1.4); }
             100% { transform: scale(1); }
         }
         .animate-hit {
             animation: punch-hit 0.3s ease-out;
+        }
+        /* EFECTO VISUAL DE PELEA Y DESENFOQUE SENSIBLE */
+        @keyframes fight-blur {
+            0% { transform: scale(1); filter: blur(0px) contrast(1); }
+            20% { transform: scale(0.95) skewX(-3deg); filter: blur(4px) contrast(1.5) brightness(1.3); }
+            60% { transform: scale(1.05) skewX(3deg); filter: blur(2px) contrast(1.2); }
+            100% { transform: scale(1); filter: blur(0px) contrast(1); }
+        }
+        .animate-combat-effect {
+            animation: fight-blur 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
@@ -43,10 +50,8 @@
 </head>
 <body class="text-white min-h-screen flex flex-col justify-between">
 
-    <!-- CABECERA PRINCIPAL -->
     <header class="bg-slate-900 bg-opacity-95 border-b-4 border-yellow-500 p-4 sticky top-0 z-50 shadow-lg">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <!-- Logo y Título -->
             <div class="flex items-center gap-3">
                 <div class="bg-red-600 text-white p-3 rounded-full border-2 border-white shadow-md animate-bounce">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -55,41 +60,24 @@
                 </div>
                 <div>
                     <h1 class="font-comic text-4xl sm:text-5xl text-yellow-400 tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">KUMITE DOJO</h1>
-                    <p class="text-xs sm:text-sm text-gray-300 font-bold uppercase tracking-widest">¡Panel Oficial de Arbitraje y Puntuación!</p>
+                    <p class="text-xs sm:text-sm text-gray-300 font-bold uppercase tracking-widest">Aprende karate jugando</p>
                 </div>
             </div>
             
-            <!-- LOGO DEL COLEGIO-->
-            <div class="flex items-center bg-slate-800 p-2 px-4 rounded-2xl border-2 border-slate-700 shadow-inner max-h-16">
-    <img id="logo-colegio" src="logo-colegio.png" alt="Logo Colegio" class="h-12 w-auto object-contain" onerror="this.style.display='none'">
-</div>
+            <div class="flex items-center justify-center p-1 max-w-xs">
+                <img id="logo-colegio" src="logo-colegio.png" alt="Logo Colegio" class="h-20 w-auto object-contain max-w-[180px]" onerror="this.style.display='none'">
+            </div>
         </div>
     </header>
 
-    <!-- CONTENEDOR PRINCIPAL DEL JUEGO -->
     <main class="max-w-6xl w-full mx-auto p-4 flex-grow flex flex-col justify-center my-4">
         
-        <!-- PANTALLA 1: BIENVENIDA -->
-        <div id="screen-welcome" class="space-y-8 py-8 text-center animate-fade-in">
+        <div id="screen-welcome" class="space-y-8 py-8 text-center">
             <div class="relative max-w-lg mx-auto">
                 <div class="animate-float mb-6 inline-block">
-                    <!-- Contenedor del avatar del Sensei -->
-                    <div class="bg-yellow-400 rounded-full p-6 inline-block border-8 border-yellow-300 shadow-2xl">
-                        <!-- Mascota Sensei animada -->
-                        <svg class="w-24 h-24 text-slate-900" viewBox="0 0 100 100" fill="currentColor">
-                            <circle cx="50" cy="45" r="28" fill="#ffdbac"/>
-                            <rect x="20" y="27" width="60" height="8" fill="#e11d48" rx="2"/>
-                            <path d="M33 38 Q40 34 44 38" stroke="black" stroke-width="3" fill="none" stroke-linecap="round"/>
-                            <path d="M67 38 Q60 34 56 38" stroke="black" stroke-width="3" fill="none" stroke-linecap="round"/>
-                            <path d="M32 44 Q38 48 44 44" stroke="black" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-                            <path d="M68 44 Q62 48 56 44" stroke="black" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-                            <path d="M50 54 Q40 54 36 62 Q50 58 50 64 Q50 58 64 62 Q60 54 50 54" fill="#2d3748"/>
-                            <path d="M22 73 L50 78 L78 73 L85 100 L15 100 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
-                            <path d="M35 73 L50 88 L65 73" fill="none" stroke="#e2e8f0" stroke-width="3"/>
-                            <rect x="30" y="90" width="40" height="8" fill="#1e293b"/>
-                        </svg>
+                    <div class="bg-slate-800 rounded-full inline-block border-4 border-yellow-400 shadow-2xl overflow-hidden w-40 h-40 relative">
+                        <img src="mi-foto.jpg" alt="Sensei Hans Gonzales" class="w-full h-full object-cover object-center" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'%23334155\' viewBox=\'0 0 24 24\'><circle cx=\'12\' cy=\'12\' r=\'10\'/><path fill=\'%23cbd5e1\' d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z\'/></svg>'">
                     </div>
-                    <!-- Nombre del Sensei debajo de la imagen -->
                     <div class="mt-4 font-comic text-3xl text-yellow-400 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] tracking-wide">
                         Sensei Hans Gonzales
                     </div>
@@ -101,7 +89,7 @@
                     ¿Reconoces los movimientos de <span class="text-red-500">Kumite</span>?
                 </h2>
                 <p class="text-lg sm:text-xl text-gray-300 max-w-lg mx-auto">
-                    Aprende las 4 técnicas de combate y entra al tapiz de competencia para competir en tiempo real bajo reglas oficiales.
+                    Aprende las 4 técnicas de combate y entra al tatami de competencia para competir en tiempo real bajo reglas oficiales.
                 </p>
             </div>
 
@@ -112,14 +100,12 @@
                 </button>
                 <button onclick="startApp('game')" class="w-full sm:w-1/2 p-5 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 rounded-2xl font-comic text-2xl tracking-wider shadow-[0_6px_0_#b91c1c] active:translate-y-1 active:shadow-none transition-all flex flex-col items-center gap-2">
                     <span>⚡ COMBATE DE KUMITE</span>
-                    <span class="text-xs font-sans text-red-200 uppercase font-bold tracking-widest">Desafío 100% Visual</span>
+                    <span class="text-xs font-sans text-red-200 uppercase font-bold tracking-widest">Desafía al NPC</span>
                 </button>
             </div>
         </div>
 
-        <!-- PANTALLA 2: MODO APRENDIZAJE -->
-        <div id="screen-learn" class="hidden space-y-6 animate-fade-in">
-            <!-- Barra superior del Dojo de Estudio -->
+        <div id="screen-learn" class="hidden space-y-6">
             <div class="flex justify-between items-center bg-slate-800 p-4 rounded-2xl border-2 border-slate-700">
                 <div>
                     <h3 class="font-comic text-3xl text-blue-400">Dojo de Estudio</h3>
@@ -130,20 +116,18 @@
                 </button>
             </div>
 
-            <!-- VISUALIZADOR DE TÉCNICA PRINCIPAL -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-900 p-6 rounded-3xl border-4 border-indigo-500 shadow-2xl relative overflow-hidden">
-                <!-- Imagen grande de la Técnica -->
                 <div class="lg:col-span-6 bg-slate-950 rounded-2xl p-4 flex flex-col items-center justify-center border-2 border-slate-800 min-h-[340px] relative">
                     <div id="learn-img-container" class="w-full h-80 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center relative shadow-inner">
                         <img id="learn-img" class="w-full h-full object-contain" src="" alt="Técnica de Karate" onerror="handleImageError(this)">
-                        <!-- Etiqueta técnica -->
-                        <div class="absolute bottom-2 right-2 bg-slate-950 bg-opacity-85 px-3 py-1 rounded-lg border border-slate-700">
-                            <span class="text-xs text-yellow-400 font-bold uppercase tracking-wider">Fotografía Real de Kumite</span>
-                        </div>
+                        
+                        <a id="learn-youtube-link" href="#" target="_blank" class="absolute bottom-2 right-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg border border-red-400 flex items-center gap-1.5 shadow-md font-bold text-xs transition-colors group">
+                            <i data-lucide="youtube" class="w-4 h-4 fill-white text-red-600"></i>
+                            <span id="learn-youtube-text">Mira el top 5 de la técnica</span>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Detalles e Información en Español -->
                 <div class="lg:col-span-6 flex flex-col justify-between space-y-4">
                     <div>
                         <span id="learn-type" class="px-3 py-1 text-xs font-bold uppercase rounded-full bg-indigo-900 text-indigo-300 border border-indigo-700">Categoría</span>
@@ -167,17 +151,13 @@
                 </div>
             </div>
 
-            <!-- SELECTORES MINIATURA -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div id="learn-selector-container" class="contents"></div>
             </div>
         </div>
 
-        <!-- PANTALLA 3: MODO JUEGO (COMBATE DE KUMITE TOTALMENTE VISUAL) -->
-        <div id="screen-game" class="hidden space-y-6 animate-fade-in">
-            <!-- MARCADOR ELECTRÓNICO WKF (ROJO AKA vs AZUL AO) -->
+        <div id="screen-game" class="hidden space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch">
-                <!-- Competidor AKA (Rojo / Usuario) -->
                 <div class="md:col-span-5 bg-red-600 rounded-3xl p-4 border-4 border-red-500 shadow-xl flex items-center justify-between relative overflow-hidden">
                     <div class="absolute right-0 top-0 bottom-0 opacity-10 font-comic text-9xl select-none translate-x-4">A</div>
                     <div class="z-10">
@@ -189,10 +169,8 @@
                     </div>
                 </div>
 
-                <!-- Centro: Cronómetro y Acción de Combate -->
                 <div class="md:col-span-2 bg-slate-800 rounded-3xl p-4 border-2 border-slate-700 flex flex-col items-center justify-center text-center gap-1 shadow-md">
                     <span class="text-[10px] text-gray-400 uppercase font-extrabold tracking-wider">CRONÓMETRO</span>
-                    <!-- Reloj digital del tatami -->
                     <p id="game-timer" class="font-digital text-3xl text-yellow-400 tracking-widest animate-pulse">02:00</p>
                     <div class="w-full h-[2px] bg-slate-700 my-1"></div>
                     <span id="action-counter" class="bg-slate-900 text-yellow-500 text-xs font-bold px-3 py-1 rounded-full border border-slate-700">
@@ -200,7 +178,6 @@
                     </span>
                 </div>
 
-                <!-- Competidor AO (Azul / Sistema) -->
                 <div class="md:col-span-5 bg-blue-600 rounded-3xl p-4 border-4 border-blue-500 shadow-xl flex items-center justify-between relative overflow-hidden">
                     <div class="absolute left-0 top-0 bottom-0 opacity-10 font-comic text-9xl select-none -translate-x-4">Z</div>
                     <div class="z-10 bg-slate-950 bg-opacity-90 rounded-2xl px-5 py-2 border border-blue-400 order-last">
@@ -213,33 +190,27 @@
                 </div>
             </div>
 
-            <!-- EL SENSEI PIDE LA TÉCNICA -->
-            <div class="bg-gradient-to-r from-red-950 via-slate-900 to-blue-950 p-6 rounded-3xl border-4 border-yellow-500 text-center relative overflow-hidden shadow-2xl">
+            <div id="combat-request-box" class="bg-gradient-to-r from-red-950 via-slate-900 to-blue-950 p-6 rounded-3xl border-4 border-yellow-500 text-center relative overflow-hidden shadow-2xl transition-all duration-300">
                 <div class="relative z-10 max-w-xl mx-auto space-y-2">
                     <p class="text-yellow-400 font-comic text-2xl uppercase tracking-wider">¡EL SENSEI TE PIDE REALIZAR!</p>
-                    <!-- Nombre que los niños deben buscar por foto -->
                     <h3 id="target-technique-name-jp" class="font-comic text-5xl sm:text-6xl text-white tracking-wide drop-shadow-md">KIZAMI TSUKI</h3>
                     <p id="target-technique-name-es" class="text-sm sm:text-base text-gray-300 bg-black bg-opacity-40 py-1 px-4 rounded-full inline-block">Analiza las posturas abajo e identifica la correcta</p>
                 </div>
             </div>
 
-            <!-- MENSAJES DE RETROALIMENTACIÓN POSITIVA Y EMOTIVA (FLOTANTE) -->
             <div id="feedback-toast" class="hidden transform scale-95 opacity-0 transition-all duration-300 p-5 rounded-2xl text-center shadow-2xl max-w-md mx-auto border-4 z-20">
                 <p id="feedback-title" class="font-comic text-3xl"></p>
                 <p id="feedback-message" class="font-bold text-sm mt-1"></p>
             </div>
 
-            <!-- CUADRÍCULA DE SELECCIÓN (ÚNICAMENTE IMÁGENES GRANDES, SIN TEXTO) -->
-            <div>
+            <div id="combat-grid-wrapper">
                 <p class="text-center text-xs font-bold text-gray-400 mb-3 uppercase tracking-widest">⚠️ HAZ CLIC SOBRE LA IMAGEN CORRECTA DE LA TÉCNICA SOLICITADA:</p>
-                <div id="game-options-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Las tarjetas se inyectan dinámicamente con las fotos sin nombre -->
-                </div>
+                <div id="game-options-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-300">
+                    </div>
             </div>
         </div>
 
-        <!-- PANTALLA 4: RESULTADO FINAL -->
-        <div id="screen-gameover" class="hidden text-center space-y-8 py-8 animate-fade-in max-w-xl mx-auto">
+        <div id="screen-gameover" class="hidden text-center space-y-8 py-8 max-w-xl mx-auto">
             <div class="bg-slate-900 p-8 rounded-3xl border-4 border-yellow-500 shadow-2xl space-y-6 relative">
                 <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-yellow-500 p-4 rounded-full border-4 border-slate-900 shadow-xl">
                     <i data-lucide="trophy" class="w-12 h-12 text-slate-950"></i>
@@ -250,14 +221,11 @@
                     <p id="gameover-subtitle" class="text-sm uppercase tracking-widest text-gray-400">Resultado Oficial de la Mesa Técnica</p>
                 </div>
 
-                <!-- Detalle final de puntuaciones -->
                 <div class="grid grid-cols-2 gap-4">
-                    <!-- AKA Final -->
                     <div class="bg-red-950 border border-red-500 p-4 rounded-2xl text-center">
                         <span class="text-xs text-red-400 uppercase block font-bold">Puntaje AKA (Tú)</span>
                         <span id="final-score-aka" class="font-digital text-4xl text-red-500 block mt-1">0</span>
                     </div>
-                    <!-- AO Final -->
                     <div class="bg-blue-950 border border-blue-500 p-4 rounded-2xl text-center">
                         <span class="text-xs text-blue-400 uppercase block font-bold">Puntaje AO (Oponente)</span>
                         <span id="final-score-ao" class="font-digital text-4xl text-blue-500 block mt-1">0</span>
@@ -285,58 +253,49 @@
 
     </main>
 
-    <!-- PIE DE PÁGINA -->
     <footer class="bg-slate-950 border-t border-slate-900 p-4 text-center text-xs text-slate-500">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-            <p>© Dojo Educativo de Karate Kumite - Diseñado para Escuelas Primarias</p>
-            <p>Sección especial: Kizami tsuki, Yako tsuki, Mawashi geri y Ura geri</p>
+            <p>© Dojo de karate - Área de Educación Física </p>
+            <p>Colegio Fermín Tangüis - SJM </p>
         </div>
     </footer>
 
-    <!-- LÓGICA DE JUEGO Y GESTIÓN DE ESTADO (JAVASCRIPT) -->
     <script>
-
         // ==========================================
-// CONFIGURACIÓN DEL SISTEMA DE AUDIO (NUEVO)
-// ==========================================
-const bgMusic = new Audio('Naruto.mp3');
-bgMusic.loop = true;  // Repetición continua
-bgMusic.volume = 0.4; // Volumen de fondo moderado
+        // CONFIGURACIÓN CENTRALIZADA DE AUDIO (2 AUDIOS DE CONTROL DE ENTRADA)
+        // ==========================================
+        const musicDojo = new Audio('KarateKid.mp3');
+        musicDojo.loop = true;
+        musicDojo.volume = 0.4;
 
-// Función para reproducir las voces oficiales del árbitro
-function playArbitratorAudio(points, competitor) {
-    let audioFile = '';
-    
-    // Asigna el nombre del archivo según los puntos oficiales WKF
-    if (points === 1) audioFile = `Grito1-${competitor}.mp3`;
-    if (points === 2) audioFile = `Grito2-${competitor}.mp3`;
-    if (points === 3) audioFile = `Grito3-${competitor}.mp3`;
-    
-    if (audioFile) {
-        const fxAudio = new Audio(audioFile);
-        fxAudio.volume = 1.0; // Voces al volumen máximo
-        fxAudio.play().catch(e => console.log("Audio en espera de interacción:", e));
-    }
-}
-        // BASE DE DATOS DE LAS 4 TÉCNICAS REQUERIDAS CON LAS IMÁGENES SUMINISTRADAS
+        const musicCombat = new Audio('CobraKai.mp3');
+        musicCombat.loop = true;
+        musicCombat.volume = 0.5;
+
+        function stopAllMusic() {
+            musicDojo.pause();
+            musicDojo.currentTime = 0;
+            musicCombat.pause();
+            musicCombat.currentTime = 0;
+        }
+
+        // BASE DE DATOS DE LAS 4 TÉCNICAS CON ENLACES INDIVIDUALES DE YOUTUBE
         const TECHNIQUES = [
             {
                 id: "kizami-tsuki",
                 nameJp: "Kizami tsuki",
                 nameEs: "Puño Delantero",
                 category: "Puño (Tsuki)",
-                points: 1, // Yuko
+                points: 1, 
                 pointsInfo: "1 Punto (Yuko)",
                 description: "Se ejecuta estirando de forma explosiva el brazo delantero del mismo lado del pie adelantado. Es una de las técnicas de puño más directas y veloces en Kumite.",
                 imgUrl: "KizamiTsuki.jpg",
-                // Respaldo visual en SVG en caso de que Facebook expire o limite las URLs directas
+                youtubeUrl: "https://www.youtube.com/watch?v=bXyEu7GS7ak",
                 fallbackSvg: `
                 <svg viewBox="0 0 100 100" class="w-full h-full text-blue-400" fill="none" stroke="currentColor" stroke-width="2">
                     <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
                     <circle cx="50" cy="50" r="30" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#60a5fa" text-anchor="middle">RETRATO DE</text>
-                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">KIZAMI TSUKI</text>
-                    <path d="M30 75 L70 75 M35 75 L45 55 L75 55" stroke="#60a5fa" stroke-width="3" stroke-linecap="round"/>
+                    <text x="50" y="55" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">KIZAMI TSUKI</text>
                 </svg>`
             },
             {
@@ -344,17 +303,16 @@ function playArbitratorAudio(points, competitor) {
                 nameJp: "Yako tsuki",
                 nameEs: "Puño Contrario",
                 category: "Puño (Tsuki)",
-                points: 1, // Yuko
+                points: 1, 
                 pointsInfo: "1 Punto (Yuko)",
                 description: "Se ejecuta lanzando el brazo contrario al pie que se encuentra adelantado. Utiliza la rotación explosiva de las caderas para conseguir el máximo alcance y potencia de impacto.",
                 imgUrl: "YakoTsuki.jpg",
+                youtubeUrl: "https://www.youtube.com/watch?v=HsGZfRoG_gc",
                 fallbackSvg: `
                 <svg viewBox="0 0 100 100" class="w-full h-full text-indigo-400" fill="none" stroke="currentColor" stroke-width="2">
                     <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
                     <circle cx="50" cy="50" r="30" stroke="#4f46e5" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#818cf8" text-anchor="middle">RETRATO DE</text>
-                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">YAKO TSUKI</text>
-                    <path d="M30 75 L70 75 M35 75 L55 58 L80 58" stroke="#818cf8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="50" y="55" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">YAKO TSUKI</text>
                 </svg>`
             },
             {
@@ -362,17 +320,16 @@ function playArbitratorAudio(points, competitor) {
                 nameJp: "Mawashi geri",
                 nameEs: "Patada Circular",
                 category: "Patada (Geri)",
-                points: 2, // Waza-Ari
+                points: 2, 
                 pointsInfo: "2 Puntos (Waza-Ari)",
                 description: "Una patada semicircular que impacta utilizando el empeine del pie. Puede ir dirigida al abdomen del oponente (Chudan) o a la cabeza (Jodan).",
                 imgUrl: "Mawashi.jpg",
+                youtubeUrl: "https://www.youtube.com/watch?v=jgvmiKbBXh4",
                 fallbackSvg: `
                 <svg viewBox="0 0 100 100" class="w-full h-full text-red-400" fill="none" stroke="currentColor" stroke-width="2">
                     <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
                     <circle cx="50" cy="50" r="30" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#f87171" text-anchor="middle">RETRATO DE</text>
-                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">MAWASHI GERI</text>
-                    <path d="M40 75 L30 75 M40 75 Q55 50 78 40" stroke="#f87171" stroke-width="3" stroke-linecap="round"/>
+                    <text x="50" y="55" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">MAWASHI GERI</text>
                 </svg>`
             },
             {
@@ -380,32 +337,28 @@ function playArbitratorAudio(points, competitor) {
                 nameJp: "Ura geri",
                 nameEs: "Patada de Gancho",
                 category: "Patada (Geri)",
-                points: 3, // Ippon
+                points: 3, 
                 pointsInfo: "3 Puntos (Ippon)",
                 description: "Patada circular invertida o de gancho. El pie dibuja una trayectoria contraria golpeando con la planta o talón, sorprendiendo el lateral desprotegido de la cabeza.",
                 imgUrl: "UraMawashi.jpg",
+                youtubeUrl: "https://www.youtube.com/watch?v=rIdmiHF2pj8",
                 fallbackSvg: `
                 <svg viewBox="0 0 100 100" class="w-full h-full text-amber-400" fill="none" stroke="currentColor" stroke-width="2">
                     <rect width="100" height="100" rx="10" fill="#1e1b4b"/>
                     <circle cx="50" cy="50" r="30" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="50" y="45" font-family="sans-serif" font-weight="bold" font-size="8" fill="#fbbf24" text-anchor="middle">RETRATO DE</text>
-                    <text x="50" y="58" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">URA GERI</text>
-                    <path d="M40 75 L30 75 M40 75 Q60 55 75 48" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+                    <text x="50" y="55" font-family="Bangers" font-size="12" fill="#ffffff" text-anchor="middle">URA GERI</text>
                 </svg>`
             }
         ];
 
-
         // VARIABLES DE ESTADO DE LA APLICACIÓN
-        let scoreAka = 0; // Puntos del estudiante (Rojo)
-        let scoreAo = 0;  // Puntos del oponente (Azul)
-        let currentAction = 1; // Contador de Acciones (1 a 10)
+        let scoreAka = 0; 
+        let scoreAo = 0;  
+        let currentAction = 1; 
         const totalActions = 10;
-        
-        let timerSeconds = 120; // 2 minutos oficiales
+        let timerSeconds = 120; 
         let timerInterval = null;
         let gameActive = false;
-
         let targetTechnique = null;
         let activeLearnIndex = 0;
 
@@ -414,39 +367,6 @@ function playArbitratorAudio(points, competitor) {
             loadLearnSection();
         };
 
-        // CONTROL DE PANTALLAS Y MÚSICA DE FONDO
-function showScreen(screenId) {
-    document.getElementById('screen-welcome').classList.add('hidden');
-    document.getElementById('screen-learn').classList.add('hidden');
-    document.getElementById('screen-game').classList.add('hidden');
-    document.getElementById('screen-gameover').classList.add('hidden');
-    
-    document.getElementById(`screen-${screenId}`).classList.remove('hidden');
-
-    // Si salimos del juego, la música se apaga por completo
-    if (screenId !== 'game') {
-        clearInterval(timerInterval);
-        gameActive = false;
-        bgMusic.pause();
-        bgMusic.currentTime = 0; 
-    }
-}
-
-function startApp(mode) {
-    if (mode === 'learn') {
-        showScreen('learn');
-        selectLearnTechnique(0);
-    } else if (mode === 'game') {
-        resetGameState();
-        showScreen('game');
-        setupNewRound();
-        startCombatTimer();
-        
-        // ¡La música arranca SOLO cuando entran al modo desafío!
-        bgMusic.play().catch(e => console.log("Interacción requerida:", e));
-    }
-}
-
         // GESTOR SEGURO DE CARGA DE IMÁGENES
         function handleImageError(imgElement) {
             const techId = imgElement.dataset.techId;
@@ -454,15 +374,12 @@ function startApp(mode) {
             if (tech) {
                 const parent = imgElement.parentElement;
                 if (parent) {
-                    parent.innerHTML = tech.fallbackSvg + `
-                    <div class="absolute bottom-2 right-2 bg-slate-950 bg-opacity-85 px-3 py-1 rounded-lg border border-slate-700">
-                        <span class="text-xs text-yellow-400 font-bold uppercase tracking-wider">Ilustración de Respaldo</span>
-                    </div>`;
+                    parent.innerHTML = tech.fallbackSvg;
                 }
             }
         }
 
-        // CAMBIAR PANTALLAS
+        // CONTROL DE PANTALLAS Y CONMUTACIÓN DE AUDIOS REQUERIDOS
         function showScreen(screenId) {
             document.getElementById('screen-welcome').classList.add('hidden');
             document.getElementById('screen-learn').classList.add('hidden');
@@ -471,28 +388,39 @@ function startApp(mode) {
             
             document.getElementById(`screen-${screenId}`).classList.remove('hidden');
 
-            // Detener timer si salimos de la pantalla de juego
+            // Limpieza general de flujos de tiempo si sale de la batalla
             if (screenId !== 'game') {
                 clearInterval(timerInterval);
                 gameActive = false;
             }
+            
+            // Apagar y resetear audios si regresa al menú principal o pantalla final
+            if (screenId === 'welcome' || screenId === 'gameover') {
+                stopAllMusic();
+            }
         }
 
         function startApp(mode) {
+            stopAllMusic(); // Reset previo preventivo de seguridad
+            
             if (mode === 'learn') {
                 showScreen('learn');
                 selectLearnTechnique(0);
+                
+                // Activar audio 1: Dojo de estudio
+                musicDojo.play().catch(e => console.log("Interacción de audio Dojo retenida:", e));
             } else if (mode === 'game') {
                 resetGameState();
                 showScreen('game');
                 setupNewRound();
                 startCombatTimer();
+                
+                // Activar audio 2: Combate de Kumite
+                musicCombat.play().catch(e => console.log("Interacción de audio Combate retenida:", e));
             }
         }
 
-        // ==========================================
         // CARGA SECCIÓN DE ESTUDIO (APRENDIZAJE)
-        // ==========================================
         function loadLearnSection() {
             const container = document.getElementById('learn-selector-container');
             container.innerHTML = '';
@@ -534,10 +462,14 @@ function startApp(mode) {
 
             const imgContainer = document.getElementById('learn-img-container');
             if (imgContainer) {
-                imgContainer.innerHTML = `<img id="learn-img" class="w-full h-full object-contain" src="${tech.imgUrl}" data-tech-id="${tech.id}" onerror="handleImageError(this)" alt="Técnica de Karate">
-                <div class="absolute bottom-2 right-2 bg-slate-950 bg-opacity-85 px-3 py-1 rounded-lg border border-slate-700">
-                    <span class="text-xs text-yellow-400 font-bold uppercase tracking-wider">Fotografía Real de Kumite</span>
-                </div>`;
+                imgContainer.innerHTML = `
+                    <img id="learn-img" class="w-full h-full object-contain" src="${tech.imgUrl}" data-tech-id="${tech.id}" onerror="handleImageError(this)" alt="Técnica de Karate">
+                    <a id="learn-youtube-link" href="${tech.youtubeUrl}" target="_blank" class="absolute bottom-2 right-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg border border-red-400 flex items-center gap-1.5 shadow-md font-bold text-xs transition-colors group z-10">
+                        <i data-lucide="youtube" class="w-4 h-4 fill-white text-red-600"></i>
+                        <span id="learn-youtube-text">Mira el top 5 de ${tech.nameJp}</span>
+                    </a>
+                `;
+                lucide.createIcons();
             }
 
             document.getElementById('learn-type').innerText = tech.category;
@@ -551,79 +483,16 @@ function startApp(mode) {
             const imgContainer = document.getElementById('learn-img-container');
             if (imgContainer) {
                 imgContainer.classList.add('animate-hit');
-                setTimeout(() => {
-                    imgContainer.classList.remove('animate-hit');
-                }, 300);
+                setTimeout(() => { imgContainer.classList.remove('animate-hit'); }, 300);
             }
         }
 
-        // ==========================================
-        // SECCIÓN DESAFÍO JUEGO: SENSEI Y MARCADOR
-        // ==========================================
-
-        // 1. Activar la música SOLO al presionar el botón de juego
-function startApp(mode) {
-    if (mode === 'learn') {
-        showScreen('learn');
-        selectLearnTechnique(0);
-    } else if (mode === 'game') {
-        resetGameState();
-        showScreen('game');
-        setupNewRound();
-        startCombatTimer();
-        
-        // ¡Arranca la música de ambientación!
-        bgMusic.play().catch(e => console.log("Interacción requerida:", e));
-    }
-}
-
-// 2. Apagar la música inmediatamente al salir del juego
-function showScreen(screenId) {
-    document.getElementById('screen-welcome').classList.add('hidden');
-    document.getElementById('screen-learn').classList.add('hidden');
-    document.getElementById('screen-game').classList.add('hidden');
-    document.getElementById('screen-gameover').classList.add('hidden');
-    
-    document.getElementById(`screen-${screenId}`).classList.remove('hidden');
-
-    if (screenId !== 'game') {
-        clearInterval(timerInterval);
-        gameActive = false;
-        
-        // Detiene y rebobina la música
-        bgMusic.pause();
-        bgMusic.currentTime = 0;
-    }
-}
-
-// 3. Activar los efectos de voz en las respuestas (dentro de handleChoice)
-// Busca tu función handleChoice y asegúrate de agregar las líneas marcadas abajo:
-function handleChoice(selectedId, cardElement) {
-    const isCorrect = selectedId === targetTechnique.id;
-    // ... (tu código actual de textos y diseño se queda exactamente igual) ...
-
-    if (isCorrect) {
-        scoreAka += pointValue;
-        // ... (tus clases de color verde) ...
-
-        // 🔊 AGREGA ESTA LÍNEA (Voz para el estudiante)
-        playArbitratorAudio(pointValue, 'aka');
-
-    } else {
-        scoreAo += pointValue;
-        // ... (tus clases de color red) ...
-
-        // 🔊 AGREGA ESTA LÍNEA (Voz para el oponente)
-        playArbitratorAudio(pointValue, 'ao');
-    }
-
-    // ... (el resto de tu función handleChoice con el temporizador se queda igual) ...
-}
+        // CONTROL LÓGICO DEL COMBATE
         function resetGameState() {
             scoreAka = 0;
             scoreAo = 0;
             currentAction = 1;
-            timerSeconds = 120; // 2 Minutos
+            timerSeconds = 120; 
             gameActive = true;
             updateStatusBar();
         }
@@ -631,13 +500,10 @@ function handleChoice(selectedId, cardElement) {
         function startCombatTimer() {
             clearInterval(timerInterval);
             updateTimerDisplay();
-
             timerInterval = setInterval(() => {
                 if (!gameActive) return;
-
                 timerSeconds--;
                 updateTimerDisplay();
-
                 if (timerSeconds <= 0) {
                     clearInterval(timerInterval);
                     endGame("¡TIEMPO EXPIRADO!");
@@ -645,17 +511,13 @@ function handleChoice(selectedId, cardElement) {
             }, 1000);
         }
 
-       function updateTimerDisplay() {
-    const minutes = Math.floor(timerSeconds / 60);
-    const seconds = timerSeconds % 60;
-    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    
-    // Se eliminó la línea de global-timer-display para evitar errores en el menú
-    document.getElementById('game-timer').innerText = formattedTime;
-}
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            document.getElementById('game-timer').innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
 
         function updateStatusBar() {
-            // Actualizar marcador electrónico
             document.getElementById('score-aka').innerText = scoreAka;
             document.getElementById('score-ao').innerText = scoreAo;
             document.getElementById('action-counter').innerText = `ACCIÓN ${currentAction} / ${totalActions}`;
@@ -664,89 +526,74 @@ function handleChoice(selectedId, cardElement) {
         function setupNewRound() {
             const randIndex = Math.floor(Math.random() * TECHNIQUES.length);
             targetTechnique = TECHNIQUES[randIndex];
-
-            document.getElementById('target-technique-name-jp').innerText = targetTechnique.nameJp;
+            document.getElementById('target-technique-name-jp').innerText = targetTechnique.nameJp.toUpperCase();
             
             let spanishHint = "Postura de Puño de Ataque Delantero";
             if (targetTechnique.id === "yako-tsuki") spanishHint = "Postura de Puño de la Mano Trasera";
             if (targetTechnique.id === "mawashi-geri") spanishHint = "Postura de Patada Circular Lateral";
             if (targetTechnique.id === "ura-geri") spanishHint = "Postura de Patada de Gancho Invertido";
-            
             document.getElementById('target-technique-name-es').innerText = spanishHint;
 
             const gameOptions = [...TECHNIQUES].sort(() => Math.random() - 0.5);
-
             const grid = document.getElementById('game-options-grid');
             grid.innerHTML = '';
 
             gameOptions.forEach(option => {
                 const card = document.createElement('button');
-                // Tarjetas solo con imágenes sin pistas de texto
                 card.className = "group relative bg-slate-900 hover:bg-slate-850 p-3 rounded-2xl border-4 border-slate-800 hover:border-yellow-400 transition-all cursor-pointer flex flex-col items-center justify-center aspect-square shadow-xl active:scale-95 overflow-hidden";
                 card.onclick = () => handleChoice(option.id, card);
-                
                 card.innerHTML = `
                     <div class="w-full h-full rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center relative">
                         <img class="w-full h-full object-contain" src="${option.imgUrl}" data-tech-id="${option.id}" onerror="handleImageError(this)" alt="Opción de Karate">
-                        <div class="absolute inset-0 bg-yellow-500 bg-opacity-0 group-hover:bg-opacity-5 transition-all"></div>
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
+        // ACCIÓN DE SELECCIÓN CON ANIMACIÓN DE ENFOQUE/DESENFOQUE DE COMBATE VISUAL
         function handleChoice(selectedId, cardElement) {
             const isCorrect = selectedId === targetTechnique.id;
             const toast = document.getElementById('feedback-toast');
             const feedbackTitle = document.getElementById('feedback-title');
             const feedbackMsg = document.getElementById('feedback-message');
-            
             const pointValue = targetTechnique.points;
-            let pointLabel = pointValue === 1 ? "Yuko (1 punto)" : pointValue === 2 ? "Waza-ari (2 puntos)" : "Ippon (3 puntos)";
+            
+            const gridWrapper = document.getElementById('game-options-grid');
+            const requestBox = document.getElementById('combat-request-box');
+
+            // Disparar efectos estéticos ráfaga de pelea (desenfoque y distorsión por impacto)
+            gridWrapper.classList.add('animate-combat-effect');
+            requestBox.classList.add('animate-hit');
+            
+            setTimeout(() => {
+                gridWrapper.classList.remove('animate-combat-effect');
+                requestBox.classList.remove('animate-hit');
+            }, 400);
 
             if (isCorrect) {
-                // Suma puntos al marcador Rojo (AKA)
                 scoreAka += pointValue;
+                cardElement.className = "group relative p-3 rounded-2xl border-4 border-green-500 bg-green-950 scale-102 transition-all aspect-square overflow-hidden shadow-[0_0_20px_rgba(34,197,94,0.5)]";
                 
-                cardElement.classList.remove('border-slate-800', 'hover:border-yellow-500');
-                cardElement.classList.add('border-green-500', 'bg-green-950', 'animate-hit');
-
-                const positiveTitles = ["¡PUNTO PARA AKA!", "¡YUKO EFECTIVO!", "¡WAZA-ARI PERFECTO!", "¡IPPON ESPECTACULAR!"];
-                const positiveMessages = [
-                    `¡Sumas +${pointValue} punto(s) a tu marcador! Identificaste la postura con agilidad de campeón.`,
-                    `¡La mesa oficial otorga ${pointLabel}! Tu concentración visual está al máximo.`,
-                    `¡Excelente ataque! Marcaste limpiamente sobre tu oponente.`,
-                    `¡Gran golpe! Reconociste la postura de combate de forma sobresaliente.`
-                ];
-
-                toast.className = "block bg-green-500 border-4 border-white text-slate-950 p-4 rounded-2xl text-center shadow-2xl max-w-md mx-auto transform scale-100 opacity-100 duration-200 font-bold fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 shadow-green-900";
-                feedbackTitle.innerText = positiveTitles[Math.min(pointValue - 1, positiveTitles.length - 1)];
-                feedbackMsg.innerText = positiveMessages[Math.floor(Math.random() * positiveMessages.length)];
+                toast.className = "block bg-green-500 border-4 border-white text-slate-950 p-4 rounded-2xl text-center shadow-2xl max-w-md mx-auto transform scale-100 opacity-100 duration-200 font-bold fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30";
+                feedbackTitle.innerText = "¡PUNTO PARA AKA!";
+                feedbackMsg.innerText = `¡Excelente ejecución! Lograste puntuar frente al NPC oponente.`;
             } else {
-                // Suma los puntos correspondientes al Oponente (AO)
                 scoreAo += pointValue;
-
-                cardElement.classList.remove('border-slate-800');
-                cardElement.classList.add('border-red-500', 'bg-red-950');
-
-                const selectedTech = TECHNIQUES.find(t => t.id === selectedId);
-                toast.className = "block bg-red-600 border-4 border-white text-white p-4 rounded-2xl text-center shadow-2xl max-w-md mx-auto transform scale-100 opacity-100 duration-200 font-bold fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 shadow-red-950";
+                cardElement.className = "group relative p-3 rounded-2xl border-4 border-red-500 bg-red-950 scale-98 transition-all aspect-square overflow-hidden shadow-[0_0_20px_rgba(239,68,68,0.5)]";
                 
-                feedbackTitle.innerText = "¡PUNTO PARA AO (OPONENTE)!";
-                feedbackMsg.innerText = `¡Oh, no! Elegiste la postura de ${selectedTech.nameJp}. El oponente aprovecha tu guardia baja y se lleva ${pointLabel}.`;
+                toast.className = "block bg-red-600 border-4 border-white text-white p-4 rounded-2xl text-center shadow-2xl max-w-md mx-auto transform scale-100 opacity-100 duration-200 font-bold fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30";
+                feedbackTitle.innerText = "¡PUNTO PARA AO!";
+                feedbackMsg.innerText = `¡Uh oh! El NPC leyó tu guardia y marcó punto en este asalto.`;
             }
 
-            // Deshabilitar clics durante el feedback
             const allCards = document.getElementById('game-options-grid').children;
-            for (let card of allCards) {
-                card.onclick = null;
-            }
+            for (let card of allCards) { card.onclick = null; }
 
             updateStatusBar();
 
             setTimeout(() => {
                 toast.className = "hidden transform scale-95 opacity-0 transition-all duration-300";
-
                 if (currentAction >= totalActions) {
                     endGame("¡COMBATE TERMINADO!");
                 } else {
@@ -754,40 +601,19 @@ function handleChoice(selectedId, cardElement) {
                     updateStatusBar();
                     setupNewRound();
                 }
-            }, 3200);
+            }, 3000);
         }
 
         function endGame(reason) {
             gameActive = false;
             clearInterval(timerInterval);
             showScreen('gameover');
-
-            if (reason) {
-                document.getElementById('gameover-title').innerText = reason;
-            }
-
-            // Actualizar marcadores finales
+            
+            if (reason) document.getElementById('gameover-title').innerText = reason;
             document.getElementById('final-score-aka').innerText = scoreAka;
             document.getElementById('final-score-ao').innerText = scoreAo;
 
-            let feedbackText = "";
-            let subtitle = "";
-
-            if (scoreAka > scoreAo) {
-                subtitle = "🏆 ¡GANADOR AKA (TÚ)!";
-                document.getElementById('gameover-subtitle').className = "text-xl font-bold uppercase tracking-widest text-green-400 mt-2";
-                feedbackText = `¡Extraordinario combate! Has vencido a tu oponente por un marcador de ${scoreAka} a ${scoreAo}. Has demostrado dominar los reflejos de las técnicas de Kumite. ¡Sigue así, campeón!`;
-            } else if (scoreAka < scoreAo) {
-                subtitle = "❌ ¡GANADOR AO (OPONENTE)!";
-                document.getElementById('gameover-subtitle').className = "text-xl font-bold uppercase tracking-widest text-red-500 mt-2";
-                feedbackText = `Esta vez tu contrincante se llevó la victoria por ${scoreAo} a ${scoreAka}. ¡Pero no te preocupes! Vuelve a entrenar tus reflejos visuales en el Dojo de estudio para preparar tu revancha táctica.`;
-            } else {
-                subtitle = "🤝 ¡EMPATE EN EL TATAMI!";
-                document.getElementById('gameover-subtitle').className = "text-xl font-bold uppercase tracking-widest text-yellow-500 mt-2";
-                feedbackText = `¡Un encuentro reñido! Quedaron empatados ${scoreAka} a ${scoreAo}. Ambos demostraron excelentes conocimientos en el reconocimiento visual de golpes y patadas.`;
-            }
-
-            document.getElementById('gameover-subtitle').innerText = subtitle;
+            let feedbackText = scoreAka > scoreAo ? "¡Extraordinario combate! Has demostrado dominar los reflejos de las técnicas." : "¡Buen intento! Regresa al dojo a practicar para tu revancha frente al NPC.";
             document.getElementById('final-sensei-feedback').innerText = feedbackText;
         }
     </script>
