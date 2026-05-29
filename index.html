@@ -39,18 +39,28 @@
         .animate-combat-effect {
             animation: fight-blur 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        
+        /* TRANSICIÓN DE DIAPOSITIVAS ESTILO CANVA (CON TRANSPARENCIA INTEGRADA) */
+        @keyframes fade-slide-1 {
+            0%, 45%, 100% { opacity: 0.35; } /* Mantiene transparencia de fondo */
+            50%, 95% { opacity: 0; }
         }
-        .animate-float {
-            animation: float 3s ease-in-out infinite;
+        @keyframes fade-slide-2 {
+            0%, 45%, 100% { opacity: 0; }
+            50%, 95% { opacity: 0.35; } /* Mantiene transparencia de fondo */
+        }
+        .slide-1 {
+            animation: fade-slide-1 12s infinite ease-in-out;
+        }
+        .slide-2 {
+            animation: fade-slide-2 12s infinite ease-in-out;
         }
     </style>
 </head>
 <body class="text-white min-h-screen flex flex-col justify-between">
 
-    <header class="bg-slate-900 bg-opacity-95 border-b-4 border-yellow-500 p-4 sticky top-0 z-50 shadow-lg">
+    <!-- CABECERA DE NAVEGACIÓN -->
+    <header class="bg-slate-900 bg-opacity-95 border-b-4 border-yellow-500 p-4 relative top-0 z-50 shadow-lg">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="bg-red-600 text-white p-3 rounded-full border-2 border-white shadow-md animate-bounce">
@@ -64,26 +74,34 @@
                 </div>
             </div>
             
-            <div class="flex items-center justify-center p-1 max-w-xs">
-                <img id="logo-colegio" src="Logo.png" alt="Logo Colegio" class="h-20 w-auto object-contain max-w-[180px]" onerror="this.style.display='none'">
+            <div class="flex items-center justify-center p-1 max-w-sm">
+                <img id="logo-colegio" src="Logo.png" alt="Logo Colegio" class="h-32 w-auto object-contain max-w-[280px]" onerror="this.style.display='none'">
             </div>
         </div>
     </header>
 
     <main class="max-w-6xl w-full mx-auto p-4 flex-grow flex flex-col justify-center my-4">
         
+        <!-- PANTALLA 1: BIENVENIDA (AHORA ENCAPSULA TODO EL CONTENIDO CORRECTAMENTE) -->
         <div id="screen-welcome" class="space-y-8 py-8 text-center">
-            <div class="relative max-w-lg mx-auto">
-                <div class="animate-float mb-6 inline-block">
-                    <div class="bg-slate-800 rounded-full inline-block border-4 border-yellow-400 shadow-2xl overflow-hidden w-40 h-40 relative">
-                <img src="foto.png" alt="Sensei Hans Gonzales" class="w-full h-full object-cover object-top" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'%23334155\' viewBox=\'0 0 24 24\'><circle cx=\'12\' cy=\'12\' r=\'10\'/><path fill=\'%23cbd5e1\' d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z\'/></svg>'">
-            </div>
-                    <div class="mt-4 font-comic text-3xl text-yellow-400 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] tracking-wide">
-                        Sensei Hans Gonzales
-                    </div>
+            
+            <!-- MARCO DE PRESENTACIÓN SLIDESHOW INTERACTIVO (Reemplaza al avatar y mantiene el color de fondo de la app) -->
+            <div class="relative w-full max-w-2xl h-64 sm:h-80 mx-auto rounded-3xl overflow-hidden border-4 border-yellow-500 shadow-2xl bg-slate-950 bg-opacity-45 flex items-center justify-center">
+                <!-- Imagen Diapositiva 1 -->
+                <img src="Dojo1.jpg" alt="Presentación Dojo 1" class="absolute inset-0 w-full h-full object-cover slide-1" onerror="this.style.visibility='hidden'">
+                <!-- Imagen Diapositiva 2 -->
+                <img src="Dojo2.jpg" alt="Presentación Dojo 2" class="absolute inset-0 w-full h-full object-cover opacity-0 slide-2" onerror="this.style.visibility='hidden'">
+                
+                <!-- Capa de Degradado Suave encima de las fotos -->
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+                
+                <!-- Etiqueta del Dojo en la diapositiva -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-slate-900 bg-opacity-80 px-4 py-1.5 rounded-full border border-yellow-500 border-opacity-50">
+                    <span class="text-xs uppercase font-bold tracking-widest text-yellow-400">Kumite Dojo Virtual</span>
                 </div>
             </div>
 
+            <!-- Textos de Bienvenida -->
             <div class="max-w-2xl mx-auto space-y-4">
                 <h2 class="font-comic text-5xl sm:text-6xl text-white tracking-wide leading-tight">
                     ¿Reconoces los movimientos de <span class="text-red-500">Kumite</span>?
@@ -93,18 +111,20 @@
                 </p>
             </div>
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-xl mx-auto pt-4">
-                <button onclick="startApp('learn')" class="w-full sm:w-1/2 p-5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-2xl font-comic text-2xl tracking-wider shadow-[0_6px_0_#1d4ed8] active:translate-y-1 active:shadow-none transition-all flex flex-col items-center gap-2">
+            <!-- BOTONES DEL MENÚ PRINCIPAL (CORREGIDOS: CENTRADOS, SIN DESCUADRES Y CON ALINEACIÓN FLEX STRETCH) -->
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-stretch max-w-2xl mx-auto pt-4">
+                <button onclick="startApp('learn')" class="w-full sm:w-1/2 p-5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-2xl font-comic text-2xl tracking-wider shadow-[0_6px_0_#1d4ed8] active:translate-y-1 active:shadow-none transition-all flex flex-col items-center justify-center gap-2 min-h-[120px]">
                     <span>🥋 ENTRENAR TÉCNICAS</span>
                     <span class="text-xs font-sans text-blue-200 uppercase font-bold tracking-widest">Dojo de Estudio</span>
                 </button>
-                <button onclick="startApp('game')" class="w-full sm:w-1/2 p-5 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 rounded-2xl font-comic text-2xl tracking-wider shadow-[0_6px_0_#b91c1c] active:translate-y-1 active:shadow-none transition-all flex flex-col items-center gap-2">
+                <button onclick="startApp('game')" class="w-full sm:w-1/2 p-5 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 rounded-2xl font-comic text-2xl tracking-wider shadow-[0_6px_0_#b91c1c] active:translate-y-1 active:shadow-none transition-all flex flex-col items-center justify-center gap-2 min-h-[120px]">
                     <span>⚡ COMBATE DE KUMITE</span>
                     <span class="text-xs font-sans text-red-200 uppercase font-bold tracking-widest">Desafía al NPC</span>
                 </button>
             </div>
         </div>
 
+        <!-- PANTALLA 2: MODO APRENDIZAJE -->
         <div id="screen-learn" class="hidden space-y-6">
             <div class="flex justify-between items-center bg-slate-800 p-4 rounded-2xl border-2 border-slate-700">
                 <div>
@@ -156,6 +176,7 @@
             </div>
         </div>
 
+        <!-- PANTALLA 3: MODO JUEGO -->
         <div id="screen-game" class="hidden space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch">
                 <div class="md:col-span-5 bg-red-600 rounded-3xl p-4 border-4 border-red-500 shadow-xl flex items-center justify-between relative overflow-hidden">
@@ -205,11 +226,11 @@
 
             <div id="combat-grid-wrapper">
                 <p class="text-center text-xs font-bold text-gray-400 mb-3 uppercase tracking-widest">⚠️ HAZ CLIC SOBRE LA IMAGEN CORRECTA DE LA TÉCNICA SOLICITADA:</p>
-                <div id="game-options-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-300">
-                    </div>
+                <div id="game-options-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-300"></div>
             </div>
         </div>
 
+        <!-- PANTALLA 4: RESULTADO FINAL -->
         <div id="screen-gameover" class="hidden text-center space-y-8 py-8 max-w-xl mx-auto">
             <div class="bg-slate-900 p-8 rounded-3xl border-4 border-yellow-500 shadow-2xl space-y-6 relative">
                 <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-yellow-500 p-4 rounded-full border-4 border-slate-900 shadow-xl">
@@ -256,7 +277,7 @@
     <footer class="bg-slate-950 border-t border-slate-900 p-4 text-center text-xs text-slate-500">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <p>© Área de Educación Física </p>
-            <p> Colegio Fermin Tangüis - SJM </p>
+            <p>Colegio Fermín Tangüis - SJM </p>
         </div>
     </footer>
 
@@ -264,11 +285,11 @@
         // =========================================================================
         // SISTEMA CENTRAL DE MÚSICA - ÚNICOS 2 AUDIOS GLOBALIZADOS
         // =========================================================================
-        const musicDojo = new Audio('KarateKid.mp3'); // Audio provisorio para el Dojo de Estudio
+        const musicDojo = new Audio('KarateKid.mp3'); 
         musicDojo.loop = true;
         musicDojo.volume = 0.4;
 
-        const musicCombat = new Audio('CobraKai.mp3'); // Audio oficial para el modo juego Kumite
+        const musicCombat = new Audio('CobraKai.mp3'); 
         musicCombat.loop = true;
         musicCombat.volume = 0.5;
 
@@ -351,7 +372,7 @@
             }
         ];
 
-        // VARIABLES DE ESTADO
+        // VARIABLES DE ESTADO DE LA APLICACIÓN
         let scoreAka = 0; 
         let scoreAo = 0;  
         let currentAction = 1; 
@@ -388,36 +409,39 @@
             
             document.getElementById(`screen-${screenId}`).classList.remove('hidden');
 
+            // Limpieza general de flujos de tiempo si sale de la batalla
             if (screenId !== 'game') {
                 clearInterval(timerInterval);
                 gameActive = false;
             }
             
-            // Si volvemos a las pantallas base, se detienen de forma segura las canciones
+            // Apagar y resetear audios si regresa al menú principal o pantalla final
             if (screenId === 'welcome' || screenId === 'gameover') {
                 stopAllMusic();
             }
         }
 
         function startApp(mode) {
-            stopAllMusic(); 
+            stopAllMusic(); // Reset previo preventivo de seguridad
             
             if (mode === 'learn') {
                 showScreen('learn');
                 selectLearnTechnique(0);
-                // Activar audio del dojo estudio
-                musicDojo.play().catch(e => console.log("Audio Dojo en espera de interacción:", e));
+                
+                // Activar audio 1: Dojo de estudio
+                musicDojo.play().catch(e => console.log("Interacción de audio Dojo retenida:", e));
             } else if (mode === 'game') {
                 resetGameState();
                 showScreen('game');
                 setupNewRound();
                 startCombatTimer();
-                // Activar audio exclusivo de combate (Naruto)
-                musicCombat.play().catch(e => console.log("Audio Combate en espera de interacción:", e));
+                
+                // Activar audio 2: Combate de Kumite
+                musicCombat.play().catch(e => console.log("Interacción de audio Combate retenida:", e));
             }
         }
 
-        // CARGA SECCIÓN DE ESTUDIO
+        // CARGA SECCIÓN DE ESTUDIO (APRENDIZAJE)
         function loadLearnSection() {
             const container = document.getElementById('learn-selector-container');
             container.innerHTML = '';
@@ -484,7 +508,7 @@
             }
         }
 
-        // LÓGICA DE COMBATE
+        // CONTROL LÓGICO DEL COMBATE
         function resetGameState() {
             scoreAka = 0;
             scoreAo = 0;
@@ -541,14 +565,13 @@
                 card.onclick = () => handleChoice(option.id, card);
                 card.innerHTML = `
                     <div class="w-full h-full rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center relative">
-                        <img class="w-full h-full object-contain" src="${option.imgUrl}" data-tech-id="${option.id}" onerror="handleImageError(this)" alt="Opción de Karate">
+                        <img class="w-full h-full object-contain" src="${option.imgUrl}" data-tech-id="${option.id}" onerror="handleImageError(this)">
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        // MANEJO DE SELECCIÓN CON ANIMACIÓN DE ENFOQUE VISUAL
         function handleChoice(selectedId, cardElement) {
             const isCorrect = selectedId === targetTechnique.id;
             const toast = document.getElementById('feedback-toast');
